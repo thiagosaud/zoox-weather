@@ -1,0 +1,16 @@
+@mixin bg-image-blend($url-img, $repeat, $size, $blend, $position, $color) {
+	background-image: url($url-img);
+	background-repeat: $repeat;
+	background-size: $size;
+	background-blend-mode: $blend;
+	background-position: $position;
+	background-color: $color;
+}
+
+@mixin bg-image($url-img, $repeat, $size, $position, $color) {
+	background-image: url($url-img);
+	background-repeat: $repeat;
+	background-size: $size;
+	background-position: $position;
+	background-color: $color;
+}

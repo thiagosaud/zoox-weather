@@ -1,0 +1,37 @@
+// GENERATE TEXT SIZE
+$text-size-map: (
+	'small': 0.5rem,
+	'default': 1rem,
+	'subtitle': 1.25rem,
+	'title': 1.5rem,
+);
+
+@each $text-type, $text-value in $text-size-map {
+	.text-#{$text-type} {
+		font-size: $text-value;
+	}
+}
+
+// GENERATE TEXT WEIGHT
+$text-weight-list: normal, bold, bolder, lighter, initial, inherit, 100, 200, 300, 400, 500, 600, 700, 800, 900;
+@each $weight-value in $text-weight-list {
+	.text-weight-#{$weight-value} {
+		font-weight: $weight-value;
+	}
+}
+
+// GENERATE TEXT ALIGN
+$text-align-list: start, end, left, right, center, justify, match-parent;
+@each $align-value in $text-align-list {
+	.text-align-#{$align-value} {
+		text-align: $align-value;
+	}
+}
+
+// GENERATE TEXT DECORATION
+$text-decoration-list: none, blink, dashed, double, inherit, initial, line-through, overline, underline, unset;
+@each $decoration-value in $text-decoration-list {
+	.text-decoration-#{$decoration-value} {
+		text-decoration: $decoration-value;
+	}
+}

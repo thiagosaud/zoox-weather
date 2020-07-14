@@ -1,0 +1,25 @@
+$icon-map: (
+	'warning': 				 '\ea07',
+	'information-1':   '\ea0c',
+	'checkmark':       '\ea10',
+	'sort-alpha-asc':  '\ea48',
+	'sort-alpha-desc': '\ea49',
+	'earth': 					 '\e9ca',
+	'trash': 					 '\e9ad',
+	'add': 						 '\e900',
+	'information-2': 	 '\e901',
+	'search': 				 '\e902',
+	'menu': 					 '\e903',
+	'arrow-back': 		 '\e904',
+	'close': 					 '\e905',
+	'compass': 				 '\e906',
+	'magic-wand': 		 '\e997',
+);
+
+@each $icon-name, $icon-value in $icon-map {
+	.icon-#{$icon-name} {
+		&:before {
+			content: $icon-value !important;
+		}
+	}
+}

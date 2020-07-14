@@ -1,0 +1,30 @@
+* {
+	font-family: 'VisbyRoundCF', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Symbol';
+
+	// UTILS
+	@extend .best-text-rendering;
+	@extend .box-sizing-border;
+	@extend .user-select-none;
+	@extend .list-style-none;
+
+	// SPACERS
+	@extend .margin-none;
+	@extend .padding-none;
+
+	// BORDERS
+	@extend .border-outline-none;
+
+	// TEXTS
+	@extend .text-default;
+	@extend .text-decoration-none;
+}
+
+body {
+	// SIZES
+	@extend .overflow-x-hidden;
+	@extend .overflow-x-auto;
+	@extend .height-vh-100;
+
+	// COLORS
+	@extend .text-grey-dark-3;
+}

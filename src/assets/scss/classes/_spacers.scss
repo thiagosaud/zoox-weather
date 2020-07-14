@@ -1,0 +1,111 @@
+// GENERATE SPACERS
+$size-map: (
+	0: 0rem,
+	1: 0.25rem,
+	2: 0.5rem,
+	3: 1rem,
+	4: 1.25rem,
+	5: 1.5rem,
+	6: 2rem,
+	7: 2.25rem,
+	8: 2.5rem,
+	9: 3rem,
+	10: 3.25rem,
+	11: 3.5rem,
+	12: 4rem,
+	13: 4.25rem,
+	14: 4.5rem,
+	15: 5rem,
+	16: 5.25rem,
+	17: 5.50rem,
+	18: 6rem,
+	19: 6.25rem,
+	20: 6.50rem,
+	21: 7rem,
+	22: 7.25rem,
+	23: 7.50rem,
+	24: 8rem,
+	25: 8.25rem,
+	26: 8.50rem,
+	27: 9rem,
+	28: 9.25rem,
+	29: 9.50rem,
+	30: 10rem,
+	31: 10.25rem,
+	32: 10.50rem,
+	33: 11.25rem,
+	34: 11.50rem,
+	35: 12rem,
+	36: 12.25rem,
+	37: 12.50rem,
+	38: 13rem,
+	39: 13.25rem,
+	40: 13.50rem,
+	41: 14rem,
+	42: 14.25rem,
+	43: 14.50rem,
+	44: 15rem,
+);
+
+$size-type-map: (
+	margin:  ( 'y', 'x', 'xy', top, bottom, left, right ),
+	padding: ( 'y', 'x', 'xy', top, bottom, left, right ),
+	text-indent: right
+);
+
+@each $size-name, $size-value in $size-map {
+	@each $size-type-name, $size-type-name-map in $size-type-map {
+		@each $type-name in $size-type-name-map {
+			@if $type-name == 'y' {
+				.#{$size-type-name}-#{$type-name}-#{$size-name} {
+					#{$size-type-name}-top: $size-value;
+					#{$size-type-name}-bottom: $size-value;
+				}
+			} @else if $type-name == 'x' {
+				.#{$size-type-name}-#{$type-name}-#{$size-name} {
+					#{$size-type-name}-left: $size-value;
+					#{$size-type-name}-right: $size-value;
+				}
+			} @else if $type-name == 'xy' {
+				.#{$size-type-name}-#{$type-name}-#{$size-name} {
+					#{$size-type-name}-top: $size-value;
+					#{$size-type-name}-bottom: $size-value;
+					#{$size-type-name}-left: $size-value;
+					#{$size-type-name}-right: $size-value;
+				}
+			} @else if $size-type-name == text-indent {
+				.#{$size-type-name}-#{$type-name}-#{$size-name} {
+					#{$size-type-name}: $size-value;
+				}
+			} @else {
+				.#{$size-type-name}-#{$type-name}-#{$size-name} {
+					#{$size-type-name}-#{$type-name}: $size-value;
+				}
+			}
+		}
+	}
+}
+
+// GENERATE SPACER CUSTOM
+$spacer-custom-map: (
+	margin:  ( none, auto, center ),
+	padding: ( none, auto ),
+);
+
+@each $spacer-type, $spacer-type-map in $spacer-custom-map {
+	@each $type-value in $spacer-type-map {
+
+		.#{$spacer-type}-#{$type-value} {
+			@if $spacer-type == margin and $type-value == 'center' {
+				margin-left: auto;
+				margin-right: auto;
+			} @else {
+				@if $type-value == none {
+					#{$spacer-type}: 0;
+				} @else {
+					#{$spacer-type}: $type-value;
+				}
+			}
+		}
+	}
+}

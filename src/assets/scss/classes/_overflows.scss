@@ -1,0 +1,18 @@
+// GENERATE OVERFLOW
+$overflow-type-list: overflow, overflow-y, overflow-x, 'xy';
+$overflow-list: visible, hidden, scroll, auto;
+
+@each $overflow-type in $overflow-type-list {
+	@each $overflow-value in $overflow-list {
+		@if $overflow-type == 'xy' {
+			.overflow-#{$overflow-type}-#{$overflow-value} {
+				overflow-x: $overflow-value !important;
+				overflow-y: $overflow-value !important;
+			}
+		} @else {
+			.#{$overflow-type}-#{$overflow-value} {
+				#{$overflow-type}: $overflow-value !important;
+			}
+		}
+	}
+}

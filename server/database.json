@@ -1,0 +1,92 @@
+{
+	"user": [
+		{
+			"id": "2ba80c26-5f51-48ae-a46a-d96a770f97a7",
+			"username": "mecontrate@zoox.com.br",
+			"password": "zoox",
+			"avatar": "assets/images/avatars/thiagodebonis.jpg"
+		}
+	],
+	"world": [
+		{
+			"id": "BR",
+			"name": "Brasil",
+			"capital": "Brasília",
+			"emoji": "🇧🇷",
+			"isCreated": false,
+			"createdAt": "",
+			"updatedAt": "",
+			"cities": [
+				{
+					"id": "RJ",
+					"name": "Rio de Janeiro",
+					"lat": -22.90642,
+					"lon": -43.18223,
+					"population": 6023699,
+					"isCreated": false,
+					"createdAt": "",
+					"updatedAt": ""
+				},
+				{
+					"id": "SP",
+					"name": "São Paulo",
+					"lat": -23.5475,
+					"lon": -46.63611,
+					"population": 10021295,
+					"isCreated": false,
+					"createdAt": "",
+					"updatedAt": ""
+				},
+				{
+					"id": "GO",
+					"name": "Goiânia",
+					"lat": -16.67861,
+					"lon": -49.25389,
+					"population": 1171195,
+					"isCreated": false,
+					"createdAt": "",
+					"updatedAt": ""
+				}
+			]
+		},
+		{
+			"id": "GB",
+			"name": "Reino Unido",
+			"capital": "Londres",
+			"emoji": "🇬🇧",
+			"isCreated": false,
+			"cities": [
+				{
+					"id": "UK",
+					"name": "Birmingham",
+					"lat": 52.48142,
+					"lon": -1.89983,
+					"population": 984333,
+					"isCreated": false,
+					"createdAt": "",
+					"updatedAt": ""
+				},
+				{
+					"id": "UK",
+					"name": "Liverpool",
+					"lat": 53.41058,
+					"lon": -2.97794,
+					"population": 864122,
+					"isCreated": false,
+					"createdAt": "",
+					"updatedAt": ""
+				},
+				{
+					"id": "UK",
+					"name": "Nottingham",
+					"lat": 52.9536,
+					"lon": -1.15047,
+					"population": 729977,
+					"isCreated": false,
+					"createdAt": "",
+					"updatedAt": ""
+				}
+			]
+		}
+	]
+}

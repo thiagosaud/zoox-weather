@@ -1,0 +1,7 @@
+## ASSETS ##
+src/assets/scss/base/_typography.scss
+src/assets/scss/classes/_icons.scss
+src/assets/scss/classes/_colors.scss
+src/assets/scss/classes/_shadows.scss
+src/assets/scss/classes/_spacers.scss
+src/assets/scss/classes/_utils.scss

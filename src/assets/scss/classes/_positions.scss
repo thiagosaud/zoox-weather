@@ -1,0 +1,27 @@
+// GENERATE POSITION
+$position-name-list: top, bottom, left, right;
+$position-value-list: static, absolute, fixed, relative, sticky, initial, inherit;
+@each $position-name in $position-name-list {
+	@each $position-value in $position-value-list {
+		.position-#{$position-name}-#{$position-value} {
+			position: $position-value;
+			#{$position-name}: 0;
+		}
+	}
+}
+
+// GENERATE Z-INDEX POSITION
+$z-index-list: auto, initial, 1, 2, 3, 4;
+@each $z-index-type in $z-index-list {
+	.z-index-#{$z-index-type} {
+		z-index: $z-index-type;
+	}
+}
+
+// GENERATE FLOAT POSITIONS
+$float-list: left, right, none, inline-start, inline-end;
+@each $float-type in $float-list {
+	.float-#{$float-type} {
+		float: $float-type;
+	}
+}

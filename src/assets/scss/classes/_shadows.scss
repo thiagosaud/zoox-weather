@@ -1,0 +1,18 @@
+// GENERATE SHADOW STYLE
+$shadow-map: (
+	'default': none,
+	'regular': #{0 1px  3px  var(--color-black-light),   0 1px  2px  var(--color-black-light-3)},
+	'small':   #{0 3px  6px  var(--color-black-light-4), 0 3px  6px  var(--color-black-light-2)},
+	'medium':  #{0 10px 20px var(--color-black-light-5), 0 6px  6px  var(--color-black-light-2)},
+	'large':   #{0 14px 28px var(--color-black-light-7), 0 10px 10px var(--color-black-light-6)}
+);
+
+@each $shadow-type, $shadow-value in $shadow-map {
+	.shadow-#{$shadow-type} {
+		box-shadow: 				$shadow-value;
+		-webkit-box-shadow: $shadow-value;
+		-moz-box-shadow:    $shadow-value;
+	}
+}
+
+

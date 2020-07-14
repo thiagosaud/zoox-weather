@@ -1,0 +1,89 @@
+// GENERATE FLEXBOX
+$flex-direction-list: row, row-reverse, column, column-reverse;
+@each $type in $flex-direction-list {
+	.flex-direction-#{$type} {
+		flex-direction: $type;
+	}
+}
+
+$flex-wrap-list: nowrap, wrap, wrap-reverse;
+@each $type in $flex-wrap-list {
+	.flex-#{$type} {
+		flex-wrap: $type;
+	}
+}
+
+$justify-content-list: flex-start, flex-end, start, end, left, right, center, space-between, space-around, space-evenly;
+@each $type in $justify-content-list {
+	.justify-content-#{$type} {
+		justify-content: $type;
+	}
+}
+
+$align-items-list: stretch, flex-start, start, self-start, flex-end, end, self-end, center, baseline;
+@each $type in $align-items-list {
+	.align-items-#{$type} {
+		align-items: $type;
+	}
+}
+
+$align-content-list: flex-start, start, flex-end, end, center, space-between, space-around, space-evenly, stretch;
+@each $type in $align-content-list {
+	.align-content-#{$type} {
+		align-content: $type;
+	}
+}
+
+$align-self-list: auto, flex-start, flex-end, center, baseline, stretch;
+@each $type in $align-self-list {
+	.align-self-#{$type} {
+		align-self: $type;
+	}
+}
+
+// CUSTOMS
+.display-flex {
+	display: flex;
+}
+
+.flex-fill {
+	flex: 1 1 auto;
+}
+
+// CUSTOMS JUSTIFY
+.flex-justify-center {
+	@extend .display-flex;
+	@extend .justify-content-center;
+}
+
+.flex-column-justify-center {
+	@extend .display-flex;
+	@extend .flex-direction-column;
+	@extend .justify-content-center;
+}
+
+// CUSTOM ALIGNS
+.flex-align-center {
+	@extend .display-flex;
+	@extend .justify-content-center;
+	@extend .align-items-center;
+}
+
+.flex-justify-start-align-center {
+	@extend .display-flex;
+	@extend .justify-content-flex-start;
+	@extend .align-items-center;
+}
+
+.flex-justify-between-align-center {
+	@extend .display-flex;
+	@extend .justify-content-space-between;
+	@extend .align-items-center;
+}
+
+.flex-column-align-center {
+	@extend .display-flex;
+	@extend .flex-direction-column;
+	@extend .justify-content-center;
+	@extend .align-items-center;
+}

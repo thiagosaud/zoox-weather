@@ -1,0 +1,63 @@
+// GENERATE STYLES
+$border-style-map: (
+	radius: (
+		none: 0,
+		'rounded': 0.25rem,
+		'circle': 100%,
+		'stack': 50rem,
+	),
+	width: (
+		'small': 1px,
+		'regular': 2px,
+		'medium': 3px,
+		'large': 4px,
+	),
+	style: (
+		none: none,
+		hidden: hidden,
+		dotted: dotted,
+		dashed: dashed,
+		solid: solid,
+		double: double,
+		groove: groove,
+		ridge: ridge,
+		inset: inset,
+		outset: outset,
+		initial: initial,
+		inherit: inherit,
+	),
+);
+
+@each $border-type, $border-value-map in $border-style-map {
+	@each $border-name, $border-value in $border-value-map {
+		.border-#{$border-name} {
+			border-#{$border-type}: $border-value;
+		}
+	}
+}
+
+// GENERATE BORDER NONE
+$border-none-list: all, x, y, top, bottom, left, right;
+@each $border-type in $border-none-list {
+	.border-#{$border-type}-none {
+		@if $border-type == all {
+			border-top: none;
+			border-bottom: none;
+			border-left: none;
+			border-right: none;
+		} @else if $border-type == y {
+			border-top: none;
+			border-bottom: none;
+		} @else if $border-type == x {
+			border-left: none;
+			border-right: none;
+		} @else {
+			border-#{$border-type}: none;
+		}
+	}
+}
+
+// CUSTOMS
+.border-outline-none {
+	outline: none !important;
+}

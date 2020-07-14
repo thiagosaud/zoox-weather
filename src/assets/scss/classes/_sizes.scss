@@ -1,0 +1,37 @@
+// GENERATE SIZE
+$size-type-list: height, width;
+$size-list: 0, 1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 60, 65, 70, 75, 80, 85, 90, 95, 100;
+@each $size-type-name in $size-type-list {
+	@each $size-value in $size-list {
+		.#{$size-type-name}-#{$size-value} {
+			#{$size-type-name}: #{$size-value}rem;
+		}
+	}
+}
+
+// GENERATE SIZE CUSTOM
+$size-custom-map: (
+	height: (
+		auto: auto,
+		vh-100: 100vh,
+		pt-100: 100%,
+	),
+	width: (
+		auto: auto,
+		vw-100: 100vw,
+		mw-100: 100%,
+		pt-100: 100%,
+	),
+);
+
+@each $size-type, $size-type-map in $size-custom-map {
+	@each $type-name, $type-value in $size-type-map {
+		.#{$size-type}-#{$type-name} {
+			@if $type-name == 'mw-100' {
+				max-width: $type-value;
+			} @else {
+				#{$size-type}: $type-value;
+			}
+		}
+	}
+}
