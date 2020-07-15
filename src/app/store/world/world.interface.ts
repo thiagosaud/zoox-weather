@@ -15,7 +15,6 @@ export interface IWorldCountry {
 	emoji: string;
 	isCreated: boolean;
 	createdAt: string;
-	updatedAt: string;
 	cities: IWorldCity[];
 }
 
@@ -28,5 +27,4 @@ export interface IWorldCity {
 	isCreated: boolean;
 	isClicked: boolean;
 	createdAt: string;
-	updatedAt: string;
 }
