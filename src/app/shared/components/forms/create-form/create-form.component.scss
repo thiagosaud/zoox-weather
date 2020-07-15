@@ -1,0 +1,14 @@
+@import 'mixins/breakpoints';
+@import 'classes/flexbox';
+
+form {
+	@extend .flex-column-justify-center;
+
+	@include breakpoint-smartphone {
+		width: 17rem;
+	}
+
+	@include breakpoint-smartphone-large {
+		width: 25rem;
+	}
+}

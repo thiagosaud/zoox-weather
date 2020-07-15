@@ -1,1 +1,12 @@
-<p>create-form works!</p>
+<form [formGroup]="createForm">
+	<zx-select-option [fmGroup]="createForm" [fmControlName]="'country'" [list]="countryData$ | async"></zx-select-option>
+
+	<zx-select-option
+		*ngIf="(isCreateCountryRoute$ | async) === false"
+		[fmGroup]="createForm"
+		[fmControlName]="'city'"
+		[list]="cityData$ | async"
+	></zx-select-option>
+
+	<button (click)="submitForm()">ae</button>
+</form>
