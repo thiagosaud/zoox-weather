@@ -7,12 +7,12 @@ import { AppComponent } from './app.component';
 
 // SHARED MODULES
 import { NgrxModule } from '@shared/modules/libraries/ngrx.module';
+import { ToastifyModule } from '@shared/modules/libraries/toastify.module';
 import { PagesModule } from '@pages/pages.module';
 
 @NgModule({
 	declarations: [AppComponent],
-	imports: [BrowserModule, AppRoutingModule, NgrxModule, PagesModule],
-	providers: [],
+	imports: [BrowserModule, AppRoutingModule, NgrxModule, ToastifyModule, PagesModule],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

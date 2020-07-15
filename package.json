@@ -20,6 +20,7 @@
 		}
 	},
 	"dependencies": {
+		"@angular/animations": "^10.0.3",
 		"@angular/common": "~9.1.0",
 		"@angular/compiler": "~9.1.0",
 		"@angular/core": "~9.1.0",
@@ -31,6 +32,7 @@
 		"@ngrx/entity": "^9.2.0",
 		"@ngrx/store": "^9.2.0",
 		"moment-timezone": "^0.5.31",
+		"ngx-toastr": "^13.0.0",
 		"rxjs": "~6.5.4",
 		"tslib": "^1.10.0",
 		"uuid": "^8.2.0",
