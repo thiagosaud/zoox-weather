@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
+import { of, timer } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
 // STORE ITEM CONFIG
 import * as action from './world.actions';
 import { ZooxApiService } from '@services/APIS/server/zoox.service';
+import { RouterUtilsService } from '@services/utils/router/router.service';
 import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class Effects {
 	constructor(
 		protected readonly action$: Actions,
 		protected readonly backendService: ZooxApiService,
+		protected readonly routerUtilsService: RouterUtilsService,
 		protected readonly toastifyService: ToastifyUtilsService
 	) {}
 
@@ -44,7 +46,8 @@ export class Effects {
 				return this.backendService.updateWorld(updates).pipe(
 					map(() => {
 						this.toastifyService.success('Sucesso', 'Dados Criados!');
-						location.reload();
+
+						timer(2000).subscribe(() => this.routerUtilsService.navigateTo(updates.changes.cities ? '/search' : '/create/city', { skipLocationChange: true }));
 
 						return action.UPDATE_WORLD_SUCCESS({ updates });
 					}),
