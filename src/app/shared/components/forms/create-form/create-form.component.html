@@ -5,8 +5,9 @@
 		*ngIf="(isCreateCountryRoute$ | async) === false"
 		[fmGroup]="createForm"
 		[fmControlName]="'city'"
+		[ngClass]="['margin-y-3']"
 		[list]="cityData$ | async"
 	></zx-select-option>
 
-	<button (click)="submitForm()">ae</button>
+	<zx-button (click)="submitForm()" [ngClass]="['margin-y-1']" [isDisabled]="!createForm.valid">Criar</zx-button>
 </form>
