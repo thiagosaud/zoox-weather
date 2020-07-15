@@ -15,7 +15,6 @@
 			"emoji": "🇧🇷",
 			"isCreated": false,
 			"createdAt": "",
-			"updatedAt": "",
 			"cities": [
 				{
 					"id": "RJ",
@@ -25,7 +24,6 @@
 					"population": 6023699,
 					"isCreated": false,
 					"createdAt": "",
-					"updatedAt": "",
 					"isClicked": false
 				},
 				{
@@ -36,7 +34,6 @@
 					"population": 10021295,
 					"isCreated": false,
 					"createdAt": "",
-					"updatedAt": "",
 					"isClicked": false
 				},
 				{
@@ -47,7 +44,6 @@
 					"population": 1171195,
 					"isCreated": false,
 					"createdAt": "",
-					"updatedAt": "",
 					"isClicked": false
 				}
 			]
