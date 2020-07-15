@@ -12,6 +12,7 @@ import { FormGroup, FormControlName } from '@angular/forms';
 				[formControlName]="fmControlName"
 				[attr.isSelected]="isSelected"
 			>
+				<option [value]="''" disabled>{{ title }}</option>
 				<option *ngFor="let item of list" [value]="item.value">{{ item.text }}</option>
 			</select>
 		</ng-container>
@@ -21,6 +22,7 @@ import { FormGroup, FormControlName } from '@angular/forms';
 export class SelectOptionComponent implements OnInit {
 	@Input() fmGroup: FormGroup;
 	@Input() fmControlName: FormControlName;
+	@Input() title: string;
 	@Input() list: Array<{ value: string; text: string }>;
 	isSelected = false;
 

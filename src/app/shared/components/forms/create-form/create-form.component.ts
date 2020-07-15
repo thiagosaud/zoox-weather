@@ -1,17 +1,20 @@
-import { Component, AfterContentInit, OnDestroy } from '@angular/core';
+import { Component, AfterContentInit, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Subscriber, BehaviorSubject, combineLatest } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+import { IWorldCountry, IWorldCity } from '@store/world/world.interface';
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { WorldStoreService } from '@services/store/world/world.service';
+import { DateUtilsService } from '@services/utils/date/date.service';
 
 @Component({
 	selector: 'zx-create-form',
 	templateUrl: './create-form.component.html',
 	styleUrls: ['./create-form.component.scss'],
 })
-export class CreateFormComponent implements AfterContentInit, OnDestroy {
+export class CreateFormComponent implements OnInit, AfterContentInit, OnDestroy {
 	protected subscription$ = new Subscription();
-	protected subscriber$ = new Subscriber<boolean | BehaviorSubject<Array<{ value: string; text: string }> | null>>();
+	protected subscriber$ = new Subscriber();
 	isCreateCountryRoute$ = new BehaviorSubject<boolean>(false);
 	countryData$ = new BehaviorSubject<Array<{ value: string; text: string }> | null>(null);
 	cityData$ = new BehaviorSubject<Array<{ value: string; text: string }> | null>(null);
@@ -20,19 +23,47 @@ export class CreateFormComponent implements AfterContentInit, OnDestroy {
 	constructor(
 		protected readonly routerUtils: RouterUtilsService,
 		protected readonly formBuilder: FormBuilder,
-		protected readonly worldStore: WorldStoreService
+		protected readonly worldStore: WorldStoreService,
+		protected readonly dateUtils: DateUtilsService
 	) {
-		this.subscription$ = this.routerUtils.routerState$.subscribe(state => {
-			this.subscriber$.add(this.isCreateCountryRoute$.next(state.createCountry));
-			this.createFormGroup(state.createCity);
-			this.setCountryData(state.createCity);
+		this.worldStore.add();
+		this.createForm = this.formBuilder.group({
+			country: this.formBuilder.control({ value: '', disabled: true }, [Validators.minLength(2), Validators.required]),
 		});
 	}
 
+	ngOnInit(): void {
+		this.subscription$ = combineLatest([this.routerUtils.routerState$, this.createForm.controls.country.valueChanges, this.worldStore.countriesCreated$])
+			.pipe(takeWhile(([routerState]) => routerState.createCity))
+			.subscribe(([_, countryCode, countries]) => {
+				this.setListData(true, countries);
+
+				if (countryCode) {
+					this.subscription$ = this.worldStore.getCitiesNotCreated$(countryCode).subscribe(cities => {
+						if (cities) {
+							this.setListData(false, cities);
+							this.createForm.controls.city.enable();
+						}
+					});
+				}
+			});
+	}
+
 	ngAfterContentInit(): void {
-		this.worldStore.add();
-		this.setCountryFormConfig();
-		this.setCityFormConfig();
+		this.subscription$ = combineLatest([this.routerUtils.routerState$, this.worldStore.countriesNotCreated$, this.worldStore.countriesCreated$])
+			.pipe(takeWhile(([routerState]) => routerState.createCountry || routerState.createCity))
+			.subscribe(([routerState, countriesNotCreated, countriesCreated]) => {
+				this.subscriber$.add(this.isCreateCountryRoute$.next(routerState.createCountry));
+				this.setListData(true, routerState.createCountry ? countriesNotCreated : countriesCreated);
+
+				if ((routerState.createCountry && countriesNotCreated?.length > 0) || (routerState.createCity && countriesCreated?.length > 0)) {
+					this.createForm.controls.country.enable();
+				}
+
+				if (routerState.createCity) {
+					this.createForm.addControl('city', this.formBuilder.control({ value: '', disabled: true }, [Validators.minLength(2), Validators.required]));
+				}
+			});
 	}
 
 	ngOnDestroy(): void {
@@ -40,60 +71,17 @@ export class CreateFormComponent implements AfterContentInit, OnDestroy {
 		this.subscriber$.unsubscribe();
 	}
 
-	protected createFormGroup(isCreateCityRoute: boolean): void {
-		this.createForm = this.formBuilder.group({
-			country: this.formBuilder.control('', [Validators.required]),
-		});
+	protected setListData(isCountryForm: boolean, data: IWorldCountry[] | IWorldCity[]): void {
+		if (data) {
+			const dataNormalized: Array<{ value: string; text: string }> = [];
+			data.forEach((item: IWorldCountry | IWorldCity) => dataNormalized.push({ value: item.id, text: item.name }));
 
-		if (isCreateCityRoute) {
-			this.createForm.addControl('city', this.formBuilder.control('', [Validators.required]));
+			this.subscriber$.add(this[isCountryForm ? 'countryData$' : 'cityData$'].next(dataNormalized));
 		}
 	}
 
-	protected setCountryFormConfig(): void {
-		this.subscription$ = combineLatest([this.isCreateCountryRoute$, this.countryData$]).subscribe(([_, countryData]) => {
-			this.createForm.controls.country[countryData && countryData.length > 0 ? 'enable' : 'disable']();
-		});
-	}
-
-	protected setCityFormConfig(): void {
-		if (this.createForm.controls.city) {
-			this.createForm.controls.city.disable();
-
-			this.subscription$ = this.createForm.controls.country.valueChanges.subscribe(countryCode => {
-				if (countryCode) {
-					this.createForm.controls.city.enable();
-					this.setCityData(countryCode);
-				}
-			});
-		}
-	}
-
-	protected setCountryData(isCreateCityRoute: boolean): void {
-		this.subscription$ = combineLatest([this.worldStore.countriesNotCreated$, this.worldStore.countriesCreated$]).subscribe(
-			([countriesNotCreated, countriesCreated]) => {
-				const countrySelectOption: Array<{ value: string; text: string }> = [];
-
-				if (countriesNotCreated && countriesCreated) {
-					if (isCreateCityRoute) {
-						countriesCreated.forEach(country => countrySelectOption.push({ value: country.id, text: country.name }));
-						this.subscriber$.add(this.countryData$.next(countrySelectOption));
-					} else {
-						countriesNotCreated.forEach(country => countrySelectOption.push({ value: country.id, text: country.name }));
-						this.subscriber$.add(this.countryData$.next(countrySelectOption));
-					}
-				}
-			}
-		);
-	}
-
-	protected setCityData(countryCode: string): void {
-		this.subscription$ = this.worldStore.getCitiesNotCreated$(countryCode).subscribe(cities => {
-			const citySelectOption: Array<{ value: string; text: string }> = [];
-
-			cities.forEach(city => citySelectOption.push({ value: city.id, text: city.name }));
-			this.subscriber$.add(this.cityData$.next(citySelectOption));
-		});
+	protected removeItemList(isCountryForm: boolean, itemSelected: IWorldCountry | IWorldCity): void {
+		const data = this[isCountryForm ? 'countryData$' : 'cityData$'].getValue();
 	}
 
 	submitForm(): void {
@@ -105,19 +93,27 @@ export class CreateFormComponent implements AfterContentInit, OnDestroy {
 					id: country,
 					changes: {
 						isCreated: true,
+						createdAt: this.dateUtils.localUTC,
 					},
 				});
 			} else {
-				const cities$ = new BehaviorSubject(null);
+				const cities$ = new BehaviorSubject<IWorldCity[] | null>(null);
+				let citiesNotSelected: IWorldCity[];
+				let citySelected: IWorldCity;
+				let citySelectedDraft: IWorldCity;
+
 				this.subscription$ = this.worldStore.getCities$(country).subscribe(cities => this.subscriber$.add(cities$.next(cities)));
 
-				const newCity = { ...cities$.getValue().filter(ct => ct.id === city)[0] };
-				newCity.isCreated = true;
+				citiesNotSelected = cities$.getValue().filter(ct => ct.id !== city);
+				citySelected = cities$.getValue().filter(ct => ct.id === city)[0];
+				citySelectedDraft = Object.assign({}, citySelected);
+				citySelectedDraft.isCreated = true;
+				citySelectedDraft.createdAt = this.dateUtils.localUTC;
 
 				this.worldStore.update({
 					id: country,
 					changes: {
-						cities: [newCity, ...cities$.getValue().filter(ct => ct.id !== city)],
+						cities: [citySelectedDraft, ...citiesNotSelected],
 					},
 				});
 			}
