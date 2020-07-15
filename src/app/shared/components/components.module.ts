@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // FORMS COMPONENTS
 import { CreateFormComponent } from './forms/create-form/create-form.component';
@@ -11,12 +12,13 @@ import { FooterNavControllerComponent } from './navbars/footer-nav/footer-nav-co
 
 // UTILS COMPONENTS
 import { IconComponent } from './utils/icon/icon.component';
+import { SelectOptionComponent } from './utils/select-option/select-option.component';
 
-const Components = [CreateFormComponent, HeaderNavComponent, FooterNavComponent, FooterNavControllerComponent, IconComponent];
+const Components = [CreateFormComponent, HeaderNavComponent, FooterNavComponent, FooterNavControllerComponent, IconComponent, SelectOptionComponent];
 
 @NgModule({
 	declarations: [Components],
-	imports: [CommonModule],
+	imports: [CommonModule, ReactiveFormsModule],
 	exports: [Components],
 })
 export class ComponentsModule {}
