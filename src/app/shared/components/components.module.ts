@@ -13,8 +13,17 @@ import { FooterNavControllerComponent } from './navbars/footer-nav/footer-nav-co
 // UTILS COMPONENTS
 import { IconComponent } from './utils/icon/icon.component';
 import { SelectOptionComponent } from './utils/select-option/select-option.component';
+import { ButtonComponent } from './utils/button/button.component';
 
-const Components = [CreateFormComponent, HeaderNavComponent, FooterNavComponent, FooterNavControllerComponent, IconComponent, SelectOptionComponent];
+const Components = [
+	CreateFormComponent,
+	HeaderNavComponent,
+	FooterNavComponent,
+	FooterNavControllerComponent,
+	IconComponent,
+	SelectOptionComponent,
+	ButtonComponent,
+];
 
 @NgModule({
 	declarations: [Components],
