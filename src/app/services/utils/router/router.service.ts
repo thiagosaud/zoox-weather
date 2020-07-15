@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationEnd, NavigationExtras } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { ToastifyUtilsService } from '../toastify/toastify.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,7 +19,7 @@ export class RouterUtilsService {
 		view: false,
 	});
 
-	constructor(protected readonly router: Router) {
+	constructor(protected readonly router: Router, protected readonly toastifyService: ToastifyUtilsService) {
 		router.events.subscribe(evt => {
 			if (evt instanceof NavigationEnd) {
 				this.setRouteStateConfig(evt.url);
@@ -87,6 +88,6 @@ export class RouterUtilsService {
 	/** @description Route navigation by name */
 	/** @TODO Completar o CATCH... */
 	navigateTo(routerName: string, extras?: NavigationExtras): void {
-		this.router.navigate([routerName], extras).catch(response => console.log(response));
+		this.router.navigate([routerName], extras).catch(() => this.toastifyService.error('Error', 'Ops... Ocorreu algum problema.'));
 	}
 }
