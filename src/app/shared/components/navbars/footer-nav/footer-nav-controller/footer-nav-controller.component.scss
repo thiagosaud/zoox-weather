@@ -1,0 +1,72 @@
+@import 'mixins/breakpoints';
+@import 'classes/colors';
+@import 'classes/flexbox';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div {
+	@extend .display-flex;
+	@extend .align-items-center;
+
+	&[isNormalOrder='true'] {
+		@extend .margin-right-6;
+
+		hr {
+			@extend .margin-left-3;
+			@extend .margin-right-2;
+		}
+	}
+
+	&[isNormalOrder='false'] {
+		@extend .margin-left-6;
+
+		hr {
+			@extend .margin-left-2;
+			@extend .margin-right-3;
+		}
+	}
+
+	&[isActived='true'] {
+		span {
+			@extend .text-grey-light;
+		}
+
+		hr {
+			@extend .border-grey-light;
+		}
+	}
+
+	&[isActived='false'] {
+		span {
+			@extend .text-grey-dark-2;
+		}
+
+		hr {
+			@extend .border-grey-dark-2;
+		}
+	}
+
+	@include breakpoint-smartphone {
+		span,
+		hr {
+			display: none !important;
+		}
+	}
+
+	@include breakpoint-smartphone-large {
+		span,
+		hr {
+			display: block !important;
+		}
+	}
+
+	hr {
+		@extend .width-5;
+	}
+
+	span {
+		@extend .text-subtitle;
+		@extend .text-weight-bold;
+	}
+}
