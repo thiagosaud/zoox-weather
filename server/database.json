@@ -25,7 +25,8 @@
 					"population": 6023699,
 					"isCreated": false,
 					"createdAt": "",
-					"updatedAt": ""
+					"updatedAt": "",
+					"isClicked": false
 				},
 				{
 					"id": "SP",
@@ -35,7 +36,8 @@
 					"population": 10021295,
 					"isCreated": false,
 					"createdAt": "",
-					"updatedAt": ""
+					"updatedAt": "",
+					"isClicked": false
 				},
 				{
 					"id": "GO",
@@ -45,46 +47,8 @@
 					"population": 1171195,
 					"isCreated": false,
 					"createdAt": "",
-					"updatedAt": ""
-				}
-			]
-		},
-		{
-			"id": "GB",
-			"name": "Reino Unido",
-			"capital": "Londres",
-			"emoji": "🇬🇧",
-			"isCreated": false,
-			"cities": [
-				{
-					"id": "UK",
-					"name": "Birmingham",
-					"lat": "52.48142",
-					"lon": "-1.89983",
-					"population": 984333,
-					"isCreated": false,
-					"createdAt": "",
-					"updatedAt": ""
-				},
-				{
-					"id": "UK",
-					"name": "Liverpool",
-					"lat": "53.41058",
-					"lon": "-2.97794",
-					"population": 864122,
-					"isCreated": false,
-					"createdAt": "",
-					"updatedAt": ""
-				},
-				{
-					"id": "UK",
-					"name": "Nottingham",
-					"lat": "52.9536",
-					"lon": "-1.15047",
-					"population": 729977,
-					"isCreated": false,
-					"createdAt": "",
-					"updatedAt": ""
+					"updatedAt": "",
+					"isClicked": false
 				}
 			]
 		}

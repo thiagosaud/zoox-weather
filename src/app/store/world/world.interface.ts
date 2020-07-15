@@ -26,6 +26,7 @@ export interface IWorldCity {
 	lon: number;
 	population: number;
 	isCreated: boolean;
+	isClicked: boolean;
 	createdAt: string;
 	updatedAt: string;
 }
