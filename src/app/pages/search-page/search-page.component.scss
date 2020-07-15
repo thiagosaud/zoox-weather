@@ -1,0 +1,18 @@
+@import 'mixins/breakpoints';
+@import 'classes/flexbox';
+@import 'classes/overflows';
+@import 'classes/colors';
+@import 'classes/sizes';
+
+section {
+	@extend .height-vh-100;
+	@extend .width-vw-100;
+	@extend .overflow-xy-hidden;
+	@extend .display-flex;
+	@extend .justify-content-center;
+	@extend .text-white;
+
+	@include breakpoint-smartphone {
+		padding-top: 4rem;
+	}
+}

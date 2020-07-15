@@ -1,1 +1,16 @@
-<p>search-page works!</p>
+<section>
+	<div>
+		<zx-search-data
+			(orderBy)="orderByList($event)"
+			[fmGroup]="searchForm"
+			[fmControlName]="'search'"
+			[placeholder]="'Digite a cidade..'"
+			[minLength]="1"
+			[maxLength]="58"
+		></zx-search-data>
+
+		<zx-select-item-list (selectItem)="itemSelected = $event" [list]="listTest$ | async" [maxSelection]="3"></zx-select-item-list>
+	</div>
+</section>
+
+<zx-select-item-nav (toview)="goToViewRoute()" [amountItens]="amountItemSelected"></zx-select-item-nav>
