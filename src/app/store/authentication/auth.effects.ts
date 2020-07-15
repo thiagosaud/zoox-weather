@@ -8,10 +8,16 @@ import { switchMap, map, catchError, tap, concatMap, withLatestFrom } from 'rxjs
 import * as action from './auth.actions';
 import { ZooxApiService } from '@services/APIS/server/zoox.service';
 import { AuthUtilsService } from '@services/utils/authentication/auth.service';
+import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';
 
 @Injectable()
 export class Effects {
-	constructor(protected readonly action$: Actions, protected readonly backendService: ZooxApiService, protected readonly authService: AuthUtilsService) {}
+	constructor(
+		protected readonly action$: Actions,
+		protected readonly backendService: ZooxApiService,
+		protected readonly authService: AuthUtilsService,
+		protected readonly toastifyService: ToastifyUtilsService
+	) {}
 
 	set$ = createEffect(() =>
 		this.action$.pipe(
@@ -20,6 +26,7 @@ export class Effects {
 				this.backendService.getUser(username, password).pipe(
 					map(user => {
 						this.authService.createToken();
+						this.toastifyService.success('Sucesso', 'Acesso Autorizado!');
 
 						return action.SET_AUTH_SUCCESS({
 							auth: {
@@ -29,7 +36,11 @@ export class Effects {
 							},
 						});
 					}),
-					catchError((error: HttpErrorResponse) => of(action.SET_AUTH_FAIL({ error })))
+					catchError((error: HttpErrorResponse) => {
+						this.toastifyService.error('Falha', 'Acesso não autorizado!');
+
+						return of(action.SET_AUTH_FAIL({ error }));
+					})
 				)
 			)
 		)
@@ -41,9 +52,12 @@ export class Effects {
 			switchMap(({ token }) => {
 				if (this.authService.token) {
 					this.authService.removeToken();
+					this.toastifyService.success('Sucesso', 'Autenticação Removida!');
 
 					return of(action.DELETE_AUTH_SUCCESS({ token }));
 				} else {
+					this.toastifyService.error('Falha', 'O Token de autenticação não existe!');
+
 					return of(
 						action.DELETE_AUTH_FAIL({
 							error: {

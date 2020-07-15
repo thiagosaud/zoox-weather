@@ -6,14 +6,14 @@ export class ToastifyUtilsService {
 	constructor(protected readonly toastr: ToastrService) {}
 
 	info(title: string, message: string): void {
-		this.toastr.info(title, message);
+		this.toastr.info(message, title);
 	}
 
 	success(title: string, message: string): void {
-		this.toastr.success(title, message);
+		this.toastr.success(message, title);
 	}
 
 	error(title: string, message: string): void {
-		this.toastr.error(title, message);
+		this.toastr.error(message, title);
 	}
 }

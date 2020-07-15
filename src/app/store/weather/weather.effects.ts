@@ -9,18 +9,32 @@ import * as action from './weather.actions';
 import { IWeatherForecastData, IWeatherHistoricalData, IWeatherData, IWeatherCoordinatesCity } from './weather.interface';
 import { WeatherApiService } from '@services/APIS/weather/weather.service';
 import { DateUtilsService } from '@services/utils/date/date.service';
+import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';
 
 @Injectable()
 export class Effects {
-	constructor(protected readonly action$: Actions, protected readonly backendService: WeatherApiService, protected readonly dateService: DateUtilsService) {}
+	constructor(
+		protected readonly action$: Actions,
+		protected readonly backendService: WeatherApiService,
+		protected readonly dateService: DateUtilsService,
+		protected readonly toastifyService: ToastifyUtilsService
+	) {}
 
 	set$ = createEffect(() =>
 		this.action$.pipe(
 			ofType(action.SET_WEATHER),
 			switchMap(({ citiesCoordinates }) => {
 				return forkJoin([...this.getHttpRequests(citiesCoordinates)]).pipe(
-					map(requests => action.SET_WEATHER_SUCCESS({ weather: this.getFormattedData(requests) })),
-					catchError((error: HttpErrorResponse) => of(action.SET_WEATHER_FAIL({ error })))
+					map(requests => {
+						this.toastifyService.success('Sucesso', 'Dados do Clima Tempo Carregados!');
+
+						return action.SET_WEATHER_SUCCESS({ weather: this.getFormattedData(requests) });
+					}),
+					catchError((error: HttpErrorResponse) => {
+						this.toastifyService.error('Falha', 'Ops... Algo aconteceu de errado!');
+
+						return of(action.SET_WEATHER_FAIL({ error }));
+					})
 				);
 			})
 		)
