@@ -1,0 +1,14 @@
+@import 'classes/colors';
+@import 'classes/flexbox';
+@import 'classes/positions';
+@import 'classes/sizes';
+@import 'classes/spacers';
+
+nav {
+	@extend .position-top-fixed;
+	@extend .width-pt-100;
+	@extend .padding-y-4;
+	@extend .padding-x-5;
+	@extend .flex-justify-between-align-center;
+	@extend .bg-grey-dark-4;
+}

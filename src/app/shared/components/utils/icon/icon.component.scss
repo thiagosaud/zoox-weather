@@ -1,0 +1,37 @@
+@import 'classes/colors';
+@import 'classes/texts';
+
+span {
+	font-family: 'ZooxIcon' !important;
+	@extend .text-title;
+
+	&[cursor='true'] {
+		cursor: pointer;
+	}
+
+	// THEMES COLORS
+	&[theme='light'] {
+		@extend .text-grey-light;
+	}
+
+	&[theme='dark'] {
+		@extend .text-grey-dark-2;
+	}
+
+	// THEMES HOVERS COLORS
+	&[theme='light-hover'] {
+		@extend .text-grey-light;
+
+		&:hover {
+			@extend .text-grey-dark-2;
+		}
+	}
+
+	&[theme='dark-hover'] {
+		@extend .text-grey-dark-2;
+
+		&:hover {
+			@extend .text-grey-light;
+		}
+	}
+}
