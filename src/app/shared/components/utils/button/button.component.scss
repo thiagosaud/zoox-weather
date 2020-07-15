@@ -1,0 +1,33 @@
+@import 'classes/colors';
+@import 'classes/borders';
+@import 'classes/spacers';
+@import 'classes/sizes';
+@import 'classes/shadows';
+@import 'classes/texts';
+
+// The themes of this component are related to sizes, border formats, text and background colors and styling with :hover.
+button {
+	@extend .padding-xy-3;
+	@extend .width-pt-100;
+	@extend .border-none;
+
+	&:disabled {
+		cursor: no-drop;
+	}
+
+	&:enabled {
+		cursor: pointer;
+
+		// THEMES ROUNDED WITH SHADOW
+		&[theme='rounded-blue-light-shadow-small'] {
+			@extend .border-rounded;
+			@extend .bg-blue-light;
+			@extend .text-white;
+			@extend .text-weight-500;
+
+			&:hover {
+				@extend .shadow-small;
+			}
+		}
+	}
+}
