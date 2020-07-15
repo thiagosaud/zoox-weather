@@ -1,0 +1,34 @@
+@import 'classes/flexbox';
+@import 'classes/overflows';
+@import 'classes/colors';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+ul {
+	@extend .height-vh-100;
+	@extend .overflow-y-auto;
+	@extend .padding-bottom-44;
+	@extend .bg-black-light-2;
+
+	li {
+		@extend .width-vw-100;
+		@extend .padding-y-5;
+		@extend .padding-x-7;
+		@extend .margin-bottom-1;
+		cursor: pointer;
+
+		&[isActived='true'],
+		&:hover {
+			@extend .bg-grey-light;
+			@extend .text-grey-dark-3;
+		}
+
+		&,
+		div {
+			@extend .flex-fill;
+			@extend .display-flex;
+			@extend .align-items-center;
+		}
+	}
+}

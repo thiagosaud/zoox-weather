@@ -1,0 +1,34 @@
+@import 'classes/colors';
+@import 'classes/spacers';
+@import 'classes/sizes';
+@import 'classes/borders';
+
+input {
+	@extend .padding-xy-3;
+	@extend .width-pt-100;
+
+	&:disabled {
+		cursor: no-drop;
+	}
+
+	&:enabled {
+		// THEMES DEFAULT
+		&[theme='default-grey-light'] {
+			@extend .border-none;
+			@extend .bg-grey-light;
+		}
+
+		// THEMES ROUNDED
+		&[theme='rounded-solid-grey-light'] {
+			@extend .border-rounded;
+			@extend .border-solid;
+			@extend .bg-grey-light;
+
+			&:hover,
+			&:focus,
+			&:active {
+				@extend .border-blue-light;
+			}
+		}
+	}
+}

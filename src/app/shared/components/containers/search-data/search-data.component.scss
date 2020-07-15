@@ -1,0 +1,11 @@
+@import 'classes/flexbox';
+@import 'classes/colors';
+@import 'classes/sizes';
+@import 'classes/spacers';
+
+div {
+	@extend .width-vw-100;
+	@extend .padding-y-1;
+	@extend .flex-justify-start-align-center;
+	@extend .bg-grey-light;
+}

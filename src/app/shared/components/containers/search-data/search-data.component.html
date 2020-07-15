@@ -1,0 +1,15 @@
+<div>
+	<zx-icon [theme]="'dark'" [ngClass]="['margin-left-3', 'margin-right-2']" [name]="'search'" [enableCursor]="false"></zx-icon>
+
+	<zx-input
+		[fmGroup]="fmGroup"
+		[fmControlName]="fmControlName"
+		[theme]="'default-grey-light'"
+		[hostClass]="'flex-fill'"
+		[placeholder]="placeholder"
+		[minLength]="minLength"
+		[maxLength]="maxLength"
+	></zx-input>
+
+	<zx-icon (click)="onclickOrderBy()" [theme]="'dark'" [ngClass]="['margin-x-4']" [name]="isOrderByAsc ? 'sort-alpha-asc' : 'sort-alpha-desc'"></zx-icon>
+</div>

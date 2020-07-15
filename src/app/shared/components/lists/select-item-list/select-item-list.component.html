@@ -1,0 +1,10 @@
+<ul>
+	<li *ngFor="let item of list" (click)="onSelectItem(item)" [attr.isActived]="item.isClicked">
+		<div>
+			<zx-icon [theme]="'grey-dark-2'" [class]="'margin-right-4'" [name]="'compass'"></zx-icon>
+			<span>{{ item.text }}</span>
+		</div>
+
+		<zx-icon (click)="deleteItem.emit(item)" [theme]="'grey-dark-2'" [class]="'hover-text-red-light'" [name]="'trash'"></zx-icon>
+	</li>
+</ul>

@@ -1,0 +1,33 @@
+@import 'mixins/breakpoints';
+@import 'classes/flexbox';
+@import 'classes/colors';
+@import 'classes/positions';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+nav {
+	@extend .position-bottom-fixed;
+	@extend .padding-y-4;
+	@extend .padding-x-6;
+	@extend .width-pt-100;
+	@extend .display-flex;
+	@extend .align-items-center;
+	@extend .bg-grey-dark-4;
+
+	@include breakpoint-smartphone {
+		justify-content: center;
+	}
+
+	@include breakpoint-smartphone-large {
+		justify-content: flex-end;
+	}
+
+	span {
+		@extend .margin-right-5;
+		@extend .text-align-center;
+		@extend .text-title;
+		@extend .text-weight-bold;
+		@extend .text-grey-light;
+	}
+}
