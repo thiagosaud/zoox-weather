@@ -1,0 +1,25 @@
+@import 'classes/flexbox';
+@import 'classes/colors';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div {
+	@extend .height-20;
+	@extend .margin-xy-4;
+	@extend .padding-xy-12;
+	@extend .flex-column-align-center;
+	@extend .bg-grey-dark-3;
+	cursor: pointer;
+
+	&:hover {
+		@extend .bg-grey-dark-4;
+	}
+
+	span {
+		@extend .margin-y-3;
+		@extend .text-title;
+		@extend .text-weight-bold;
+		@extend .text-grey-light;
+	}
+}
