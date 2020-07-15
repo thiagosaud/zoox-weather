@@ -9,7 +9,11 @@
 		[isAbsoluteRoute]="isAbsoluteRoute$ | async"
 	></zx-header-nav>
 
-	<zx-footer-nav [isCreateRoute]="isCreateRoute$ | async"></zx-footer-nav>
+	<zx-footer-nav
+		(goToSearch)="routerUtils.navigateTo('/search')"
+		(goToCreate)="routerUtils.navigateTo('/create')"
+		[isCreateRoute]="isCreateRoute$ | async"
+	></zx-footer-nav>
 
 	<router-outlet></router-outlet>
 </main>

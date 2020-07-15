@@ -1,0 +1,11 @@
+<nav>
+	<zx-footer-nav-controller (onclick)="goToSearch.emit($event)" [title]="'PESQUISAR'" [icon]="'search'"></zx-footer-nav-controller>
+
+	<zx-footer-nav-controller
+		(onclick)="goToCreate.emit($event)"
+		[title]="'CRIAR'"
+		[icon]="'add'"
+		[isNormalOrder]="false"
+		[isActived]="isCreateRoute"
+	></zx-footer-nav-controller>
+</nav>

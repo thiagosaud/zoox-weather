@@ -1,0 +1,7 @@
+@import 'classes/flexbox';
+@import 'classes/sizes';
+
+section {
+	@extend .height-vh-100;
+	@extend .flex-align-center;
+}

@@ -1,7 +1,6 @@
 import { Component, AfterContentInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Subscriber, BehaviorSubject, combineLatest } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { WorldStoreService } from '@services/store/world/world.service';
 
@@ -52,9 +51,9 @@ export class CreateFormComponent implements AfterContentInit, OnDestroy {
 	}
 
 	protected setCountryFormConfig(): void {
-		this.subscription$ = combineLatest([this.isCreateCountryRoute$, this.countryData$])
-			.pipe(takeWhile(([isCreateCountryRoute]) => !!isCreateCountryRoute))
-			.subscribe(([_, countryData]) => this.createForm.controls.country[countryData && countryData.length > 0 ? 'enable' : 'disable']());
+		this.subscription$ = combineLatest([this.isCreateCountryRoute$, this.countryData$]).subscribe(([_, countryData]) => {
+			this.createForm.controls.country[countryData && countryData.length > 0 ? 'enable' : 'disable']();
+		});
 	}
 
 	protected setCityFormConfig(): void {
@@ -62,8 +61,10 @@ export class CreateFormComponent implements AfterContentInit, OnDestroy {
 			this.createForm.controls.city.disable();
 
 			this.subscription$ = this.createForm.controls.country.valueChanges.subscribe(countryCode => {
-				this.createForm.controls.city.enable();
-				this.setCityData(countryCode);
+				if (countryCode) {
+					this.createForm.controls.city.enable();
+					this.setCityData(countryCode);
+				}
 			});
 		}
 	}
