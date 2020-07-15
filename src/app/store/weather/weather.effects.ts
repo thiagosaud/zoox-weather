@@ -8,17 +8,11 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import * as action from './weather.actions';
 import { IWeatherForecastData, IWeatherHistoricalData, IWeatherData, IWeatherCoordinatesCity } from './weather.interface';
 import { WeatherApiService } from '@services/APIS/weather/weather.service';
-import { AuthService } from '@services/utils/auth/auth.service';
-import { DateService } from '@services/utils/date/date.service';
+import { DateUtilsService } from '@services/utils/date/date.service';
 
 @Injectable()
 export class Effects {
-	constructor(
-		protected readonly action$: Actions,
-		protected readonly backendService: WeatherApiService,
-		protected readonly authService: AuthService,
-		protected readonly dateService: DateService
-	) {}
+	constructor(protected readonly action$: Actions, protected readonly backendService: WeatherApiService, protected readonly dateService: DateUtilsService) {}
 
 	set$ = createEffect(() =>
 		this.action$.pipe(

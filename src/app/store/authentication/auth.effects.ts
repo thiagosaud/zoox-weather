@@ -7,11 +7,11 @@ import { switchMap, map, catchError, tap, concatMap, withLatestFrom } from 'rxjs
 // STORE ITEM CONFIG
 import * as action from './auth.actions';
 import { ZooxApiService } from '@services/APIS/server/zoox.service';
-import { AuthService } from '@services/utils/auth/auth.service';
+import { AuthUtilsService } from '@services/utils/authentication/auth.service';
 
 @Injectable()
 export class Effects {
-	constructor(protected readonly action$: Actions, protected readonly backendService: ZooxApiService, protected readonly authService: AuthService) {}
+	constructor(protected readonly action$: Actions, protected readonly backendService: ZooxApiService, protected readonly authService: AuthUtilsService) {}
 
 	set$ = createEffect(() =>
 		this.action$.pipe(

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as moment from 'moment-timezone';
 
 @Injectable({ providedIn: 'root' })
-export class DateService {
+export class DateUtilsService {
 	readonly datePreviousFiveDaysUnix = moment().tz('America/Sao_Paulo').subtract(5, 'days').unix();
 
 	constructor() {}
