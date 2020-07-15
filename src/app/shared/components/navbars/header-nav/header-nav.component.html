@@ -5,7 +5,7 @@
 		<zx-icon (click)="backToRoute.emit($event)" [name]="isProfileRoute ? 'close' : 'arrow-back'"></zx-icon>
 	</ng-template>
 
-	<span [ngClass]="['flex-fill', 'text-title', 'text-align-center']">{{ title }}</span>
+	<span [ngClass]="['flex-fill', 'text-subtitle', 'text-align-center']">{{ title }}</span>
 
 	<zx-icon *ngIf="isAbsoluteRoute" (click)="goToHome.emit($event)" [name]="'earth'"></zx-icon>
 </nav>
