@@ -1,0 +1,36 @@
+@import 'mixins/backgrounds';
+@import 'classes/utils';
+@import 'classes/colors';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+select {
+	@extend .appearence-none;
+	@extend .width-pt-100;
+	@extend .padding-xy-3;
+
+	& option {
+		@extend .text-subtitle;
+	}
+
+	&[isSelected='true'] {
+		@include bg-image('/assets/images/utils/arrow_up.svg', no-repeat, 7%, right, white);
+	}
+
+	&[isSelected='false'] {
+		@include bg-image('/assets/images/utils/arrow_down.svg', no-repeat, 7%, right, white);
+	}
+
+	&:disabled {
+		cursor: no-drop;
+	}
+
+	&:enabled {
+		cursor: pointer;
+
+		&:hover {
+			@extend .bg-grey-light;
+		}
+	}
+}
