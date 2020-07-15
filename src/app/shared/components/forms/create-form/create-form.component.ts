@@ -1,9 +1,9 @@
 import { Component, AfterContentInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Subscriber, BehaviorSubject, combineLatest } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { WorldStoreService } from '@services/store/world/world.service';
-import { takeWhile } from 'rxjs/operators';
 
 @Component({
 	selector: 'zx-create-form',

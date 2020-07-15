@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterUtilsService } from '@services/utils/router/router.service';
 import { Subscription, BehaviorSubject, Subscriber } from 'rxjs';
+import { RouterUtilsService } from '@services/utils/router/router.service';
 
 @Component({
 	selector: 'zx-master-page',
