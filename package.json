@@ -27,7 +27,6 @@
 		"@angular/platform-browser": "~9.1.0",
 		"@angular/platform-browser-dynamic": "~9.1.0",
 		"@angular/router": "~9.1.0",
-		"@ngrx/data": "^9.2.0",
 		"@ngrx/effects": "^9.2.0",
 		"@ngrx/entity": "^9.2.0",
 		"@ngrx/store": "^9.2.0",
