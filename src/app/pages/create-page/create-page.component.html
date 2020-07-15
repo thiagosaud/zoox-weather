@@ -1,3 +1,19 @@
 <section>
+	<zx-card-default
+		*ngIf="isCreateRoute$ | async"
+		(click)="routerUtils.navigateTo('/create/country')"
+		[imgSrc]="cardCountryImg"
+		[imgAlt]="'Criar País'"
+		[title]="'País'"
+	></zx-card-default>
+
+	<zx-card-default
+		*ngIf="isCreateRoute$ | async"
+		(click)="routerUtils.navigateTo('/create/city')"
+		[imgSrc]="cardCityImg"
+		[imgAlt]="'Criar Cidade'"
+		[title]="'Cidade'"
+	></zx-card-default>
+
 	<router-outlet></router-outlet>
 </section>

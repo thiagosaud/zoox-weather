@@ -1,7 +1,16 @@
+@import 'mixins/breakpoints';
 @import 'classes/flexbox';
+@import 'classes/overflows';
 @import 'classes/sizes';
 
 section {
 	@extend .height-vh-100;
+	@extend .overflow-x-hidden;
 	@extend .flex-align-center;
+	@extend .flex-wrap;
+
+	@include breakpoint-smartphone {
+		padding-top: 3rem;
+		padding-bottom: 4rem;
+	}
 }
