@@ -10,6 +10,22 @@ export const getCountries = createSelector(FEATURE_SELECTOR, ({ world }) => (wor
 export const getCountriesCreated = createSelector(getCountries, countries => (countries ? countries.filter(country => country.isCreated) : null));
 export const getCountriesNotCreated = createSelector(getCountries, countries => (countries ? countries.filter(country => !country.isCreated) : null));
 
+export const getCities = createSelector(getCountries, (countries: IWorldCountry[], { countryId }: { countryId: string }) => {
+	if (countries) {
+		const cities: IWorldCity[] = [];
+
+		countries.forEach(country => {
+			if (country.id === countryId) {
+				cities.push(...country.cities);
+			}
+		});
+
+		return cities;
+	}
+
+	return null;
+});
+
 export const getCitiesCreated = createSelector(getCountriesCreated, countries => {
 	if (countries) {
 		const cities: IWorldCity[] = [];

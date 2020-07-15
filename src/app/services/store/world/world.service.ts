@@ -23,19 +23,23 @@ export class WorldStoreService {
 		this.store.dispatch(action.UPDATE_WORLD({ updates }));
 	}
 
-	getCountries$(): Observable<IWorldCountry[] | null> {
+	get countries$(): Observable<IWorldCountry[] | null> {
 		return this.store.pipe(select(selector.getCountries));
 	}
 
-	getCountriesCreated$(): Observable<IWorldCountry[] | null> {
+	get countriesCreated$(): Observable<IWorldCountry[] | null> {
 		return this.store.pipe(select(selector.getCountriesCreated));
 	}
 
-	getCountriesNotCreated$(): Observable<IWorldCountry[] | null> {
+	get countriesNotCreated$(): Observable<IWorldCountry[] | null> {
 		return this.store.pipe(select(selector.getCountriesNotCreated));
 	}
 
-	getCitiesCreated$(): Observable<IWorldCity[] | null> {
+	getCities$(countryId: string): Observable<IWorldCity[] | null> {
+		return this.store.pipe(select(selector.getCities, { countryId }));
+	}
+
+	get citiesCreated$(): Observable<IWorldCity[] | null> {
 		return this.store.pipe(select(selector.getCitiesCreated));
 	}
 
