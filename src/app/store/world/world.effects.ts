@@ -44,6 +44,7 @@ export class Effects {
 				return this.backendService.updateWorld(updates).pipe(
 					map(() => {
 						this.toastifyService.success('Sucesso', 'Dados Criados!');
+						location.reload();
 
 						return action.UPDATE_WORLD_SUCCESS({ updates });
 					}),
