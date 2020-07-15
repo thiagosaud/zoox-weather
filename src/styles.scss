@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+
+// BASES
+@import 'bases/reset';
+@import 'bases/typography';
+
+// CLASSES
+@import 'classes/borders';
+@import 'classes/colors';
+@import 'classes/flexbox';
+@import 'classes/icons';
+@import 'classes/overflows';
+@import 'classes/icons';
+@import 'classes/overflows';
+@import 'classes/positions';
+@import 'classes/shadows';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+@import 'classes/utils';
+
+// MIXINS
+@import 'mixins/backgrounds';
+@import 'mixins/breakpoints';

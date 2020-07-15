@@ -14,8 +14,6 @@ $font-type-map: (
 	),
 );
 
-
-
 // GENERATE FONTS
 @each $font-name, $font-weight in $font-type-map {
 	@each $font-weight, $font-weight-value in $font-weight {
@@ -26,10 +24,8 @@ $font-type-map: (
 			font-style: normal;
 			font-weight: #{$font-weight-value};
 			src: url('#{$path}.eot');
-			src: url('#{$path}.eot?#iefix') format('embedded-opentype'),
-					 url('#{$path}.woff')       format('woff'),
-				   url('#{$path}.woff2') 			format('woff2'),
-					 url('#{$path}.ttf') 				format('truetype');
+			src: url('#{$path}.eot?#iefix') format('embedded-opentype'), url('#{$path}.woff') format('woff'), url('#{$path}.woff2') format('woff2'),
+				url('#{$path}.ttf') format('truetype');
 		}
 	}
 }
