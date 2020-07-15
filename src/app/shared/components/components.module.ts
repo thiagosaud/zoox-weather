@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CreateFormComponent } from './forms/create-form/create-form.component';
 
 // NAVBARS COMPONENTS
-import { HeaderNavComponent } from './navbar/header-nav/header-nav.component';
+import { HeaderNavComponent } from './navbars/header-nav/header-nav.component';
 
 // UTILS COMPONENTS
 import { IconComponent } from './utils/icon/icon.component';
