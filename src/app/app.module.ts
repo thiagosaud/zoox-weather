@@ -7,10 +7,11 @@ import { AppComponent } from './app.component';
 
 // SHARED MODULES
 import { NgrxModule } from '@shared/modules/libraries/ngrx.module';
+import { PagesModule } from '@pages/pages.module';
 
 @NgModule({
 	declarations: [AppComponent],
-	imports: [BrowserModule, AppRoutingModule, NgrxModule],
+	imports: [BrowserModule, AppRoutingModule, NgrxModule, PagesModule],
 	providers: [],
 	bootstrap: [AppComponent],
 })

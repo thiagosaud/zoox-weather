@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'zx-root',
-	templateUrl: './app.component.html',
+	template: '<router-outlet></router-outlet>',
 	styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-	title = 'zoox-weather';
+export class AppComponent implements OnInit {
+	constructor() {}
+
+	ngOnInit(): void {}
 }
