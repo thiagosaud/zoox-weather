@@ -1,0 +1,20 @@
+@import 'mixins/backgrounds';
+@import 'mixins/breakpoints';
+@import 'classes/colors';
+@import 'classes/sizes';
+
+main {
+	@extend .height-vh-100;
+
+	@include breakpoint-smartphone {
+		@include bg-image-blend('/assets/images/utils/bg-earth-animated.gif', no-repeat, cover, lighten, left, var(--color-grey-dark-4));
+	}
+
+	@include breakpoint-tablet-extra-large {
+		@include bg-image-blend('/assets/images/utils/bg-earth-animated.gif', no-repeat, contain, lighten, right, var(--color-grey-dark-4));
+	}
+
+	@include breakpoint-desktop {
+		@include bg-image-blend('/assets/images/utils/bg-earth-animated.gif', no-repeat, contain, lighten, center, var(--color-grey-dark-4));
+	}
+}

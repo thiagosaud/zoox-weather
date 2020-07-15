@@ -1,3 +1,15 @@
-<p>master-page works!</p>
+<main>
+	<zx-header-nav
+		(goToHome)="routerUtils.navigateTo('/')"
+		(goToProfile)="routerUtils.navigateTo('/profile')"
+		(backToRoute)="routerUtils.navigateTo(backRoute$.getValue())"
+		[title]="pageTitle$ | async"
+		[isHomeRoute]="isHomeRoute$ | async"
+		[isProfileRoute]="isProfileRoute$ | async"
+		[isAbsoluteRoute]="isAbsoluteRoute$ | async"
+	></zx-header-nav>
 
-<router-outlet></router-outlet>
+	<zx-footer-nav [isCreateRoute]="isCreateRoute$ | async"></zx-footer-nav>
+
+	<router-outlet></router-outlet>
+</main>
