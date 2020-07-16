@@ -123,17 +123,20 @@ export class SearchPageComponent implements OnInit, OnDestroy, AfterContentInit 
 
 	deleteCity(item: ISelectItem): void {
 		if (item) {
+			console.log('aquii');
 			const country$ = new BehaviorSubject<IWorldCountry | null>(null);
 
 			this.subscription$ = this.worldStore.getCountryByCityId$(item.cityCode).subscribe(country => this.subscriber$.add(country$.next(country)));
 
-			this.worldStore.update({
-				id: country$.getValue()?.id,
-				changes: {
-					updatedAt: this.dateUtils.localUTC,
-					cities: [...country$.getValue()?.cities.filter(city => city.id !== item.cityCode)],
-				},
-			});
+			if (country$.getValue()) {
+				this.worldStore.update({
+					id: country$.getValue()?.id,
+					changes: {
+						updatedAt: this.dateUtils.localUTC,
+						cities: [...country$.getValue()?.cities.filter(city => city.id !== item.cityCode)],
+					},
+				});
+			}
 		}
 	}
 }

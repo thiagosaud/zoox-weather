@@ -1,5 +1,3 @@
 <section>
-	<zx-card-weather></zx-card-weather>
-	<zx-card-weather></zx-card-weather>
-	<zx-card-weather></zx-card-weather>
+	<zx-card-weather *ngFor="let weather of weatherList$ | async" [data]="weather"></zx-card-weather>
 </section>

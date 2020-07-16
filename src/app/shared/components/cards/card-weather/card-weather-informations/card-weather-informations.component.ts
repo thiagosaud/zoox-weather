@@ -4,9 +4,17 @@ import { Component, OnInit, Input } from '@angular/core';
 	selector: 'zx-card-weather-informations',
 	template: `
 		<div>
-			<span>Pressão: {{ pressure }}</span>
-			<span>Umidade: {{ humidity }}%</span>
-			<span>Vento: {{ windSpeed }}km/h</span>
+			<section>
+				<span>Pressão:</span>
+				<span>Umidade:</span>
+				<span>Vento:</span>
+			</section>
+
+			<section>
+				<span>{{ pressure }} mb</span>
+				<span>{{ humidity }} %</span>
+				<span>{{ windSpeed }} km/h</span>
+			</section>
 		</div>
 	`,
 	styleUrls: ['./card-weather-informations.component.scss'],

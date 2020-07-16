@@ -1,12 +1,55 @@
+@import 'mixins/breakpoints';
 @import 'classes/flexbox';
 @import 'classes/spacers';
 @import 'classes/texts';
 
-div {
-	@extend .flex-fill;
-	@extend .flex-column-align-end;
+:host {
+	@include breakpoint-smartphone {
+		flex: 1 1 auto;
+	}
 
-	span {
-		@extend .text-default;
+	@include breakpoint-smartphone-large {
+		flex: none;
+	}
+
+	div {
+		@extend .flex-fill;
+		@extend .display-flex;
+
+		@include breakpoint-smartphone {
+			margin-top: 0.5rem;
+			flex-direction: column;
+		}
+
+		@include breakpoint-smartphone-large {
+			margin-top: 0;
+			flex-direction: row;
+		}
+
+		section {
+			@extend .display-flex;
+
+			@include breakpoint-smartphone {
+				width: 100%;
+				justify-content: space-between;
+			}
+
+			@include breakpoint-smartphone-large {
+				width: auto;
+				flex-direction: column;
+
+				&:first-child {
+					margin-right: 1rem;
+				}
+
+				&:last-child {
+					align-items: flex-end;
+				}
+			}
+
+			span {
+				@extend .text-default;
+			}
+		}
 	}
 }

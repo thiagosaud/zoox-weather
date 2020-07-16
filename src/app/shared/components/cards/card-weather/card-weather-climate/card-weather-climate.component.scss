@@ -6,7 +6,7 @@ div {
 	@extend .display-flex;
 
 	span {
-		@extend .margin-top-2;
+		@extend .margin-xy-2;
 		@extend .text-heading;
 	}
 }

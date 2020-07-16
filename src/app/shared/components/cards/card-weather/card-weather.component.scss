@@ -8,7 +8,7 @@
 @import 'classes/texts';
 
 div.card {
-	@extend .padding-xy-3;
+	@extend .padding-xy-4;
 	@extend .margin-xy-5;
 	@extend .border-rounded;
 	@extend .bg-white;
@@ -28,12 +28,24 @@ div.card {
 
 	header {
 		@extend .flex-column-justify-center;
+
+		span {
+			&:nth-child(1) {
+				@extend .text-title;
+			}
+
+			&:nth-child(2),
+			&:nth-child(3) {
+				@extend .text-default;
+			}
+		}
 	}
 
 	section {
-		@extend .margin-y-5;
+		@extend .margin-y-4;
 		@extend .display-flex;
 		@extend .justify-content-space-between;
+		@extend .flex-wrap;
 
 		@include breakpoint-smartphone-large {
 			padding-right: 2rem;
