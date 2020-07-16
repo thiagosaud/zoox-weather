@@ -4,11 +4,17 @@
 
 // The themes of this component are related to sizes and styling of formats.
 div {
-	@extend .display-flex;
+	@extend .align-items-center;
 	object-fit: cover;
 
 	img {
 		// THEMES
+		&[theme='small'] {
+			@extend .border-none;
+			@extend .height-4;
+			@extend .width-4;
+		}
+
 		&[theme='default'] {
 			@extend .border-none;
 			@extend .height-5;
