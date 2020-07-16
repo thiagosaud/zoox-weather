@@ -30,6 +30,7 @@ export class WeatherApiService {
 			lat: lt,
 			lon: ln,
 			lang: 'pt',
+			units: 'metric',
 		};
 
 		if (unix) {

@@ -50,4 +50,8 @@ export class WorldStoreService {
 	getCities$(countryId: string): Observable<IWorldCity[] | null> {
 		return this.store.pipe(select(selector.getCities, { countryId }));
 	}
+
+	getCitiesByIds$(citiesIds: string[]): Observable<IWorldCity[] | null> {
+		return this.store.pipe(select(selector.getCitiesByIds, { citiesIds }));
+	}
 }
