@@ -14,6 +14,7 @@ export interface IWorldCountry {
 	capital: string;
 	emoji: string;
 	createdAt: string;
+	updatedAt: string;
 	isCreated: boolean;
 	cities: IWorldCity[];
 }
@@ -21,10 +22,9 @@ export interface IWorldCountry {
 export interface IWorldCity {
 	id: string;
 	name: string;
-	lat: number;
-	lon: number;
+	lat: string;
+	lon: string;
 	population: number;
 	createdAt: string;
 	isCreated: boolean;
-	isClicked: boolean;
 }

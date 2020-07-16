@@ -7,8 +7,23 @@ const FEATURE_SELECTOR = createFeatureSelector<IEntityState>('world');
 
 // GETTER'S
 export const getCountries = createSelector(FEATURE_SELECTOR, ({ world }) => (world ? world : null));
+
 export const getCountriesCreated = createSelector(getCountries, countries => (countries ? countries.filter(country => country.isCreated) : null));
 export const getCountriesNotCreated = createSelector(getCountries, countries => (countries ? countries.filter(country => !country.isCreated) : null));
+
+export const getCountryByCityId = createSelector(getCountries, (countries: IWorldCountry[], { cityId }: { cityId: string }) => {
+	if (countries) {
+		return countries.filter(country => {
+			return country.cities.map(city => {
+				if (city.id === cityId) {
+					return country;
+				}
+			});
+		})[0];
+	}
+
+	return null;
+});
 
 export const getCities = createSelector(getCountries, (countries: IWorldCountry[], { countryId }: { countryId: string }) => {
 	if (countries) {

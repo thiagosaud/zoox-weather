@@ -35,15 +35,19 @@ export class WorldStoreService {
 		return this.store.pipe(select(selector.getCountriesNotCreated));
 	}
 
-	getCities$(countryId: string): Observable<IWorldCity[] | null> {
-		return this.store.pipe(select(selector.getCities, { countryId }));
-	}
-
 	get citiesCreated$(): Observable<IWorldCity[] | null> {
 		return this.store.pipe(select(selector.getCitiesCreated));
 	}
 
+	getCountryByCityId$(cityId: string): Observable<IWorldCountry | null> {
+		return this.store.pipe(select(selector.getCountryByCityId, { cityId }));
+	}
+
 	getCitiesNotCreated$(countryId: string): Observable<IWorldCity[] | null> {
 		return this.store.pipe(select(selector.getCitiesNotCreated, { countryId }));
+	}
+
+	getCities$(countryId: string): Observable<IWorldCity[] | null> {
+		return this.store.pipe(select(selector.getCities, { countryId }));
 	}
 }

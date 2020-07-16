@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpErrorResponse } from '@angular/common/http';
-import { of, timer } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { of, BehaviorSubject } from 'rxjs';
+import { switchMap, map, catchError, delay } from 'rxjs/operators';
 
 // STORE ITEM CONFIG
 import * as action from './world.actions';
@@ -12,6 +12,8 @@ import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service'
 
 @Injectable()
 export class Effects {
+	protected route$ = new BehaviorSubject<string>('');
+
 	constructor(
 		protected readonly action$: Actions,
 		protected readonly backendService: ZooxApiService,
@@ -25,7 +27,7 @@ export class Effects {
 			switchMap(() => {
 				return this.backendService.getWorld().pipe(
 					map(world => {
-						this.toastifyService.success('Sucesso', 'Dados do Planeta Carregados!');
+						this.toastifyService.success('Sucesso', 'Planeta em Órbita!');
 
 						return action.SET_WORLD_SUCCESS({ world });
 					}),
@@ -45,9 +47,8 @@ export class Effects {
 			switchMap(({ updates }) => {
 				return this.backendService.updateWorld(updates).pipe(
 					map(() => {
-						this.toastifyService.success('Sucesso', 'Dados Criados!');
-
-						timer(2000).subscribe(() => this.routerUtilsService.navigateTo(updates.changes.cities ? '/search' : '/create/city', { skipLocationChange: true }));
+						this.toastifyService.success('Sucesso', 'Planeta Atualizado!');
+						location.reload();
 
 						return action.UPDATE_WORLD_SUCCESS({ updates });
 					}),
