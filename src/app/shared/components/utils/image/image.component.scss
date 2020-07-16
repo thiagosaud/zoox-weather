@@ -26,5 +26,12 @@ div {
 			@extend .height-10;
 			@extend .width-10;
 		}
+
+		// THEMES ROUNDED
+		&[theme='circle-default'] {
+			@extend .border-circle;
+			@extend .height-5;
+			@extend .width-5;
+		}
 	}
 }
