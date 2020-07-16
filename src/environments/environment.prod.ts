@@ -9,7 +9,7 @@ export const environment: IEnvironment = {
 		},
 		weather: {
 			host: 'community-open-weather-map.p.rapidapi.com',
-			masterKey: '3c5851de7amsh1226b702e3157f8p1b35e8jsn633cdea0f700',
+			masterKey: 'INSERT THE KEY',
 			historialUrl: 'https://community-open-weather-map.p.rapidapi.com/onecall/timemachine',
 			forecastUrl: 'https://community-open-weather-map.p.rapidapi.com/forecast',
 		},
