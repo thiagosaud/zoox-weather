@@ -8,6 +8,8 @@ export class ImageAssetsUtilsService {
 
 	get(name: string): string {
 		switch (name.toLowerCase()) {
+			case 'user':
+				return '/assets/images/temp/thiagobonis.jpg';
 			case 'logo':
 				return '/assets/images/utils/logo.svg';
 			case 'earth':

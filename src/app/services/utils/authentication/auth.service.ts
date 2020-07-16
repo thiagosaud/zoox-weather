@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
 
+// SERVICES
+import { RouterUtilsService } from '@services/utils/router/router.service';
+
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthUtilsService {
-	constructor() {}
+	constructor(protected readonly routerService: RouterUtilsService) {}
 
 	get token(): string {
 		return sessionStorage.getItem('token');
+	}
+
+	get hasToken(): boolean {
+		return !!this.token;
 	}
 
 	createToken(): void {
