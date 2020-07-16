@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
+import { of, timer } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
 // STORE ITEM CONFIG
@@ -10,6 +10,7 @@ import * as action from './auth.actions';
 // SERVICES
 import { ZooxApiService } from '@services/APIS/server/zoox.service';
 import { AuthUtilsService } from '@services/utils/authentication/auth.service';
+import { RouterUtilsService } from '@services/utils/router/router.service';
 import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';
 
 @Injectable()
@@ -18,6 +19,7 @@ export class Effects {
 		protected readonly action$: Actions,
 		protected readonly backendService: ZooxApiService,
 		protected readonly authService: AuthUtilsService,
+		protected readonly routerService: RouterUtilsService,
 		protected readonly toastifyService: ToastifyUtilsService
 	) {}
 
@@ -29,6 +31,8 @@ export class Effects {
 					map(user => {
 						this.authService.createToken();
 						this.toastifyService.success('Sucesso', 'Acesso Autorizado!');
+
+						timer(1000).subscribe(() => this.routerService.navigateTo('/'));
 
 						return action.SET_AUTH_SUCCESS({
 							auth: {
