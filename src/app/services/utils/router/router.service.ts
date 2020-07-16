@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationEnd, NavigationExtras } from '@angular/router';
+import { Router, NavigationEnd, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ToastifyUtilsService } from '../toastify/toastify.service';
 
@@ -7,6 +7,7 @@ import { ToastifyUtilsService } from '../toastify/toastify.service';
 	providedIn: 'root',
 })
 export class RouterUtilsService {
+	citiesParams$ = new BehaviorSubject<string>('');
 	routerState$ = new BehaviorSubject({
 		error: false,
 		login: false,
@@ -19,17 +20,20 @@ export class RouterUtilsService {
 		view: false,
 	});
 
-	constructor(protected readonly router: Router, protected readonly toastifyService: ToastifyUtilsService) {
+	constructor(protected readonly router: Router, protected readonly activedRoute: ActivatedRoute, protected readonly toastifyService: ToastifyUtilsService) {
 		router.events.subscribe(evt => {
 			if (evt instanceof NavigationEnd) {
 				this.setRouteStateConfig(evt.url);
 			}
 		});
+
+		activedRoute.queryParams.subscribe(params => {
+			this.citiesParams$.next(params.cities);
+		});
 	}
 
 	/** @description Updates the state of the routes. */
 	protected setRouteStateConfig(routerName: string): void {
-		console.log(routerName);
 		const isErrorRoute = !!routerName.includes('/error');
 		const isLoginRoute = !!routerName.includes('/login');
 		const isProfileRoute = !!routerName.includes('/profile');
