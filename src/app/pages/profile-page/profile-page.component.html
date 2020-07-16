@@ -1,1 +1,10 @@
-<p>profile-page works!</p>
+<section>
+	<zx-user-profile
+		[fullname]="(user$ | async)?.full_name"
+		[email]="(user$ | async)?.username"
+		[imgSrc]="(user$ | async)?.avatar"
+		[imgAlt]="(user$ | async)?.full_name"
+	></zx-user-profile>
+
+	<zx-button (click)="logout()" [ngClass]="['width-15', 'margin-top-2']">SAIR</zx-button>
+</section>

@@ -26,6 +26,7 @@ import { CardWeatherClimateComponent } from './cards/card-weather/card-weather-c
 // CONTAINERS COMPONENTS
 import { FieldsetComponent } from './containers/fieldset/fieldset.component';
 import { SearchDataComponent } from './containers/search-data/search-data.component';
+import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 
 // UTILS COMPONENTS
 import { IconComponent } from './utils/icon/icon.component';
@@ -49,6 +50,7 @@ const Components = [
 	CardWeatherInformationsComponent,
 	CardWeatherClimateComponent,
 	SearchDataComponent,
+	UserProfileComponent,
 	FieldsetComponent,
 	IconComponent,
 	ImageComponent,

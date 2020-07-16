@@ -1,0 +1,15 @@
+@import 'classes/flexbox';
+@import 'classes/sizes';
+
+@import 'classes/spacers';
+@import 'classes/texts';
+
+section {
+	@extend .height-vh-100;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}

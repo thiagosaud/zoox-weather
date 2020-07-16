@@ -1,0 +1,28 @@
+@import 'classes/flexbox';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div {
+	&,
+	section {
+		@extend .flex-column-center;
+	}
+
+	section {
+		@extend .margin-xy-4;
+
+		span {
+			&:first-child {
+				@extend .text-title;
+				@extend .text-weight-bold;
+			}
+
+			&:last-child {
+				@extend .margin-left-1;
+				@extend .margin-top-1;
+				@extend .text-subtitle;
+				@extend .text-weight-lighter;
+			}
+		}
+	}
+}
