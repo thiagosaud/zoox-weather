@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { ISelectItem } from '@shared/interfaces/utils.interface';
 
 @Component({
 	selector: 'zx-select-item-list',
@@ -6,9 +7,9 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 	styleUrls: ['./select-item-list.component.scss'],
 })
 export class SelectItemListComponent implements OnInit {
-	@Output() selectItem = new EventEmitter<Array<{ text: string; isCountry: boolean; isClicked: boolean }>>();
-	@Output() deleteItem = new EventEmitter<{ text: string; isCountry: boolean; isClicked: boolean }>();
-	@Input() list: Array<{ text: string; isCountry: boolean; isClicked: boolean }>;
+	@Output() selectItem = new EventEmitter<ISelectItem[]>();
+	@Output() deleteItem = new EventEmitter<ISelectItem>();
+	@Input() list: ISelectItem[];
 	@Input() maxSelection: number;
 
 	constructor() {}
@@ -16,7 +17,7 @@ export class SelectItemListComponent implements OnInit {
 	ngOnInit(): void {}
 
 	/** @description Filters only selected items, to return in the event of selection. */
-	protected get itensSelected(): Array<{ text: string; isCountry: boolean; isClicked: boolean }> {
+	protected get itensSelected(): ISelectItem[] {
 		return this.list.filter(item => item.isClicked);
 	}
 
@@ -26,13 +27,13 @@ export class SelectItemListComponent implements OnInit {
 	}
 
 	/** @description Emits the selected item. */
-	onSelectItem(item: { text: string; isCountry: boolean; isClicked: boolean }): void {
+	onSelectItem(item: ISelectItem): void {
 		this.setItemSelectedConfig(item);
 		this.selectItem.emit(this.itensSelected);
 	}
 
 	/** @description Insert the configuration for selecting, deselecting the list item and blocking the number of selected items. */
-	protected setItemSelectedConfig(item: { text: string; isCountry: boolean; isClicked: boolean }): void {
+	protected setItemSelectedConfig(item: ISelectItem): void {
 		if (item.isClicked) {
 			item.isClicked = false;
 		} else {

@@ -5,13 +5,13 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 	template: `
 		<nav>
 			<span>{{ amountItens }}/3 Items selecionados</span>
-			<zx-button (click)="toview.emit($event)" [isDisabled]="amountItens === 0">Visualizar</zx-button>
+			<zx-button (click)="submitList.emit($event)" [isDisabled]="amountItens === 0">Visualizar</zx-button>
 		</nav>
 	`,
 	styleUrls: ['./select-item-nav.component.scss'],
 })
 export class SelectItemNavComponent implements OnInit {
-	@Output() toview = new EventEmitter<MouseEvent>();
+	@Output() submitList = new EventEmitter<MouseEvent>();
 	@Input() amountItens: number;
 
 	constructor() {}
