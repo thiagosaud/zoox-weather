@@ -88,8 +88,8 @@ $align-self-list: auto, flex-start, flex-end, center, baseline, stretch;
 	@extend .align-items-center;
 }
 
-.flex-column-align-end {
+.flex-column-align-start {
 	@extend .display-flex;
 	@extend .flex-direction-column;
-	@extend .align-items-flex-end;
+	@extend .align-items-flex-start;
 }
