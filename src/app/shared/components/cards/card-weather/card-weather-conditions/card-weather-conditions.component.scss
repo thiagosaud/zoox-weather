@@ -1,0 +1,29 @@
+@import 'classes/colors';
+@import 'classes/borders';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div {
+	@extend .width-5;
+	@extend .padding-y-2;
+	@extend .margin-right-1;
+	@extend .text-align-center;
+	cursor: pointer;
+
+	&[isSelected='true'] {
+		@extend .border-small;
+		@extend .border-solid;
+		@extend .border-rounded;
+		@extend .border-grey-light-3;
+		@extend .bg-grey-light-2;
+	}
+
+	span {
+		@extend .text-default;
+
+		&:nth-child(1) {
+			@extend .text-weight-bold;
+		}
+	}
+}

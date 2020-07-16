@@ -1,0 +1,20 @@
+<div class="card">
+	<header>
+		<span [ngClass]="['text-title']">Rio de Janeiro - RJ</span>
+		<span [ngClass]="['text-default']">sábado, 23:00</span>
+		<span [ngClass]="['text-default']">Céu Aberto</span>
+	</header>
+	<section>
+		<zx-card-weather-climate [conditionIcon]="'01d'" [maxTemp]="100"></zx-card-weather-climate>
+		<zx-card-weather-informations [pressure]="1018" [humidity]="68" [windSpeed]="2.68"></zx-card-weather-informations>
+	</section>
+	<footer>
+		<zx-card-weather-conditions
+			[conditionIcon]="'11d'"
+			[conditionType]="'tornados'"
+			[dayOfTheWeek]="'quar'"
+			[minTemp]="18"
+			[maxTemp]="21"
+		></zx-card-weather-conditions>
+	</footer>
+</div>

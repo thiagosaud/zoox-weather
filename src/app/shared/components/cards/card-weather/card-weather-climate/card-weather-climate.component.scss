@@ -1,0 +1,12 @@
+@import 'classes/flexbox';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div {
+	@extend .display-flex;
+
+	span {
+		@extend .margin-top-2;
+		@extend .text-heading;
+	}
+}

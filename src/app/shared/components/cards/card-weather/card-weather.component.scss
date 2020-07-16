@@ -1,0 +1,60 @@
+@import 'mixins/breakpoints';
+@import 'classes/flexbox';
+@import 'classes/colors';
+@import 'classes/borders';
+@import 'classes/overflows';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div.card {
+	@extend .padding-xy-3;
+	@extend .margin-xy-5;
+	@extend .border-rounded;
+	@extend .bg-white;
+	@extend .text-grey-dark-4;
+
+	@include breakpoint-smartphone {
+		width: 18rem;
+	}
+
+	@include breakpoint-smartphone-large {
+		width: 34rem;
+	}
+
+	@include breakpoint-tablet {
+		width: 30rem;
+	}
+
+	header {
+		@extend .flex-column-justify-center;
+	}
+
+	section {
+		@extend .margin-y-5;
+		@extend .display-flex;
+		@extend .justify-content-space-between;
+
+		@include breakpoint-smartphone-large {
+			padding-right: 2rem;
+		}
+	}
+
+	footer {
+		@extend .padding-y-1;
+		@extend .overflow-x-auto;
+		@extend .display-flex;
+
+		@include breakpoint-smartphone {
+			width: 250px;
+		}
+
+		@include breakpoint-smartphone-large {
+			width: 500px;
+		}
+
+		@include breakpoint-tablet {
+			width: 440px;
+		}
+	}
+}

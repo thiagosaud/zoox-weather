@@ -16,6 +16,8 @@ import { SelectItemNavComponent } from './navbars/select-item-nav/select-item-na
 
 // CARDS COMPONENTS
 import { CardDefaultComponent } from './cards/card-default/card-default.component';
+import { CardWeatherComponent } from './cards/card-weather/card-weather.component';
+import { CardWeatherConditionsComponent } from './cards/card-weather/card-weather-conditions/card-weather-conditions.component';
 
 // CONTAINERS COMPONENTS
 import { SearchDataComponent } from './containers/search-data/search-data.component';
@@ -26,6 +28,8 @@ import { ImageComponent } from './utils/image/image.component';
 import { InputComponent } from './utils/input/input.component';
 import { SelectOptionComponent } from './utils/select-option/select-option.component';
 import { ButtonComponent } from './utils/button/button.component';
+import { CardWeatherInformationsComponent } from './cards/card-weather/card-weather-informations/card-weather-informations.component';
+import { CardWeatherClimateComponent } from './cards/card-weather/card-weather-climate/card-weather-climate.component';
 
 const Components = [
 	CreateFormComponent,
@@ -35,6 +39,8 @@ const Components = [
 	FooterNavControllerComponent,
 	SelectItemNavComponent,
 	CardDefaultComponent,
+	CardWeatherComponent,
+	CardWeatherConditionsComponent,
 	SearchDataComponent,
 	IconComponent,
 	ImageComponent,
@@ -44,7 +50,7 @@ const Components = [
 ];
 
 @NgModule({
-	declarations: [Components],
+	declarations: [Components, CardWeatherInformationsComponent, CardWeatherClimateComponent],
 	imports: [CommonModule, ReactiveFormsModule],
 	exports: [Components],
 })

@@ -1,0 +1,12 @@
+@import 'classes/flexbox';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div {
+	@extend .flex-fill;
+	@extend .flex-column-align-end;
+
+	span {
+		@extend .text-default;
+	}
+}
