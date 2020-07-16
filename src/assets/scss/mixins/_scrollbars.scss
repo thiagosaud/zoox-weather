@@ -1,0 +1,52 @@
+$SCROLLBAR_MAP: (
+	'SCROLLBAR': overflow,
+	'SCROLLBAR-Y': overflow-y,
+	'SCROLLBAR-X': overflow-x,
+);
+
+$SCROLLBAR_CUSTOM_MAP: (
+	'GREY-SMALL': (
+		height: 6px,
+		width: 6px,
+		'thumbColor': #00000033,
+		'trackColor': #ffffff1a,
+	),
+	'GREY-LARGE': (
+		height: 6px,
+		width: 6px,
+		'thumbColor': #b1afa7,
+		'trackColor': #dddbd1,
+	),
+);
+
+//prettier-ignore
+@each $name, $value in $SCROLLBAR_MAP {
+	$new_name: to-lower-case($name);
+
+	.#{$new_name}-none { #{$value}: hidden !important; }
+	.#{$new_name}-auto { #{$value}: auto   !important; }
+}
+
+// CUSTOMS
+@each $name, $value in $SCROLLBAR_CUSTOM_MAP {
+	$new_name: to-lower-case($name);
+	$height: map.get($value, 'height');
+	$width: map.get($value, 'width');
+	$thumbColor: map.get($value, 'thumbColor');
+	$trackColor: map.get($value, 'trackColor');
+
+	.scrollbar-#{$new_name} {
+		&::-webkit-scrollbar {
+			height: $height !important;
+			width: $width !important;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: $thumbColor;
+		}
+
+		&::-webkit-scrollbar-track {
+			background-color: $trackColor;
+		}
+	}
+}

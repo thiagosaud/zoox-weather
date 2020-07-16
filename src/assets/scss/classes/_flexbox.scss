@@ -87,3 +87,9 @@ $align-self-list: auto, flex-start, flex-end, center, baseline, stretch;
 	@extend .justify-content-center;
 	@extend .align-items-center;
 }
+
+.flex-column-align-end {
+	@extend .display-flex;
+	@extend .flex-direction-column;
+	@extend .align-items-flex-end;
+}

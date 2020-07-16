@@ -1,6 +1,9 @@
 * {
 	font-family: 'VisbyRoundCF', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Symbol';
 
+	// MIXINS
+	@extend .scrollbar-grey-small;
+
 	// UTILS
 	@extend .best-text-rendering;
 	@extend .box-sizing-border;
