@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControlName } from '@angular/forms';
+import { ISelectOptionItem } from '@shared/interfaces/utils.interface';
 
 @Component({
 	selector: 'zx-select-option',
@@ -23,7 +24,7 @@ export class SelectOptionComponent implements OnInit {
 	@Input() fmGroup: FormGroup;
 	@Input() fmControlName: FormControlName;
 	@Input() title: string;
-	@Input() list: Array<{ value: string; text: string }>;
+	@Input() list: ISelectOptionItem[];
 	isSelected = false;
 
 	constructor() {}

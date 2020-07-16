@@ -6,6 +6,7 @@ import { IWorldCountry, IWorldCity } from '@store/world/world.interface';
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { WorldStoreService } from '@services/store/world/world.service';
 import { DateUtilsService } from '@services/utils/date/date.service';
+import { ISelectOptionItem } from '@shared/interfaces/utils.interface';
 
 @Component({
 	selector: 'zx-create-form',
@@ -16,8 +17,8 @@ export class CreateFormComponent implements OnInit, AfterContentInit, OnDestroy 
 	protected subscription$ = new Subscription();
 	protected subscriber$ = new Subscriber();
 	isCreateCountryRoute$ = new BehaviorSubject<boolean>(false);
-	countryData$ = new BehaviorSubject<Array<{ value: string; text: string }> | null>(null);
-	cityData$ = new BehaviorSubject<Array<{ value: string; text: string }> | null>(null);
+	countryData$ = new BehaviorSubject<ISelectOptionItem[] | null>(null);
+	cityData$ = new BehaviorSubject<ISelectOptionItem[] | null>(null);
 	createForm: FormGroup;
 
 	constructor(
@@ -73,15 +74,11 @@ export class CreateFormComponent implements OnInit, AfterContentInit, OnDestroy 
 
 	protected setListData(isCountryForm: boolean, data: IWorldCountry[] | IWorldCity[]): void {
 		if (data) {
-			const dataNormalized: Array<{ value: string; text: string }> = [];
+			const dataNormalized: ISelectOptionItem[] = [];
 			data.forEach((item: IWorldCountry | IWorldCity) => dataNormalized.push({ value: item.id, text: item.name }));
 
 			this.subscriber$.add(this[isCountryForm ? 'countryData$' : 'cityData$'].next(dataNormalized));
 		}
-	}
-
-	protected removeItemList(isCountryForm: boolean, itemSelected: IWorldCountry | IWorldCity): void {
-		const data = this[isCountryForm ? 'countryData$' : 'cityData$'].getValue();
 	}
 
 	submitForm(): void {
