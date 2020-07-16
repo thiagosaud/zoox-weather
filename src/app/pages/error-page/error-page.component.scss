@@ -1,0 +1,37 @@
+@import 'mixins/breakpoints';
+@import 'mixins/backgrounds';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+section {
+	@extend .height-vh-100;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	@include breakpoint-smartphone {
+		@include bg-image-blend('/assets/images/utils/bg-earth-animated.gif', no-repeat, cover, lighten, left, var(--color-grey-dark-4));
+	}
+
+	@include breakpoint-tablet-extra-large {
+		@include bg-image-blend('/assets/images/utils/bg-earth-animated.gif', no-repeat, contain, lighten, right, var(--color-grey-dark-4));
+	}
+
+	@include breakpoint-desktop {
+		@include bg-image-blend('/assets/images/utils/bg-earth-animated.gif', no-repeat, contain, lighten, center, var(--color-grey-dark-4));
+	}
+
+	span {
+		&:first-child {
+			@extend .text-heading-2;
+		}
+
+		&:nth-child(2) {
+			@extend .margin-y-5;
+			@extend .text-subtitle;
+			@extend .text-align-center;
+		}
+	}
+}
