@@ -62,6 +62,13 @@ $align-self-list: auto, flex-start, flex-end, center, baseline, stretch;
 	@extend .justify-content-center;
 }
 
+.flex-column-center {
+	@extend .display-flex;
+	@extend .flex-direction-column;
+	@extend .justify-content-center;
+	@extend .align-items-center;
+}
+
 // CUSTOM ALIGNS
 .flex-align-center {
 	@extend .display-flex;

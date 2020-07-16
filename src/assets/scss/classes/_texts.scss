@@ -5,6 +5,7 @@ $text-size-map: (
 	'subtitle': 1.25rem,
 	'title': 1.5rem,
 	'heading': 2rem,
+	'heading-2': 5rem,
 );
 
 @each $text-type, $text-value in $text-size-map {
