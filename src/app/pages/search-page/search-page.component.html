@@ -9,8 +9,13 @@
 			[maxLength]="58"
 		></zx-search-data>
 
-		<zx-select-item-list (selectItem)="itemSelected = $event" [list]="listTest$ | async" [maxSelection]="3"></zx-select-item-list>
+		<zx-select-item-list
+			(selectItem)="citiesSelected = $event"
+			(deleteItem)="deleteCity($event)"
+			[list]="cityData$ | async"
+			[maxSelection]="3"
+		></zx-select-item-list>
 	</div>
 </section>
 
-<zx-select-item-nav (toview)="goToViewRoute()" [amountItens]="amountItemSelected"></zx-select-item-nav>
+<zx-select-item-nav (submitList)="goToViewRoute()" [amountItens]="amountItemSelected"></zx-select-item-nav>

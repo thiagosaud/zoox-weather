@@ -1,107 +1,94 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { debounceTime, map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import { debounceTime, map, takeWhile } from 'rxjs/operators';
+import { BehaviorSubject, Subscriber, Subscription, combineLatest } from 'rxjs';
+import { ISelectItem } from '@shared/interfaces/utils.interface';
+import { IWorldCity, IWorldCountry } from '@store/world/world.interface';
+import { RouterUtilsService } from '@services/utils/router/router.service';
+import { WorldStoreService } from '@services/store/world/world.service';
+import { DateUtilsService } from '@services/utils/date/date.service';
 
 @Component({
 	selector: 'zx-search-page',
 	templateUrl: './search-page.component.html',
 	styleUrls: ['./search-page.component.scss'],
 })
-export class SearchPageComponent implements OnInit {
+export class SearchPageComponent implements OnInit, OnDestroy, AfterContentInit {
+	protected subscription$ = new Subscription();
+	protected subscriber$ = new Subscriber();
+	cityData$ = new BehaviorSubject<ISelectItem[] | null>(null);
+	citiesSelected: ISelectItem[];
 	searchForm: FormGroup;
-	listTest$ = new BehaviorSubject<Array<{ text: string; isCountry: boolean; isClicked: boolean }> | null>([
-		{
-			text: 'Rio de Janeiro',
-			isCountry: false,
-			isClicked: false,
-		},
-		{
-			text: 'Estados Unidos',
-			isCountry: true,
-			isClicked: false,
-		},
-		{
-			text: 'Brasil',
-			isCountry: true,
-			isClicked: false,
-		},
-		{
-			text: 'São Paulo',
-			isCountry: false,
-			isClicked: false,
-		},
-		{
-			text: 'Nova York',
-			isCountry: false,
-			isClicked: false,
-		},
-	]);
-	itemSelected: Array<{ text: string; isCountry: boolean; isClicked: boolean }> = [];
 
-	constructor(protected readonly fb: FormBuilder) {
-		this.searchForm = fb.group({
-			search: fb.control('', [Validators.minLength(1), Validators.maxLength(58), Validators.required]),
+	constructor(
+		protected readonly routerUtils: RouterUtilsService,
+		protected readonly worldStore: WorldStoreService,
+		protected readonly dateUtils: DateUtilsService,
+		protected readonly formBuilder: FormBuilder
+	) {
+		this.worldStore.add();
+		this.searchForm = formBuilder.group({
+			search: formBuilder.control('', [Validators.minLength(1), Validators.maxLength(58), Validators.required]),
 		});
 	}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		/** @description Filters the list according to the characters entered in the child component. */
+		combineLatest([this.searchForm.valueChanges, this.worldStore.citiesCreated$, this.cityData$])
+			.pipe(
+				takeWhile(([_, cities]) => !!cities),
+				debounceTime(500),
+				map(([valueChanges, cities, selectsCities]) => {
+					const { search } = valueChanges;
+					const searchNormalized = this.normalizeFilter(search);
+					const filterNormalized = selectsCities.filter(item => this.normalizeFilter(item.cityName).includes(searchNormalized));
+
+					return filterNormalized.length === 0 || !search ? this.normalizeData(cities) : filterNormalized;
+				})
+			)
+			.subscribe(items => this.setData(true, null, items));
+	}
+
+	ngAfterContentInit(): void {
+		this.subscription$ = this.worldStore.citiesCreated$.subscribe(cities => {
+			if (cities) {
+				this.setData(false, cities);
+			}
+		});
+	}
+
+	ngOnDestroy(): void {
+		this.subscription$.unsubscribe();
+		this.subscriber$.unsubscribe();
+	}
 
 	/** @description Returns the number of items selected from the list. */
 	get amountItemSelected(): number {
-		return this.listTest$.getValue().filter(item => item.isClicked).length;
+		return this.cityData$.getValue()?.filter(item => item.isClicked).length;
 	}
 
-	/** @description Sort the list by pressing the button of the child component, the sorting can be of two types: "Ascending" or "Descending". */
-	orderByList(isOrderByAsc: boolean): void {
-		this.listTest$.getValue().sort((a, b) => (isOrderByAsc ? (a.text > b.text ? 1 : -1) : b.text > a.text ? 1 : -1));
+	/** @description Auxiliary method for entering normalized values.  */
+	protected setData(isDataNormalized: boolean, cities: IWorldCity[], citiesNormalized?: ISelectItem[]): void {
+		if (cities || citiesNormalized) {
+			this.subscriber$.add(this.cityData$.next(isDataNormalized ? citiesNormalized : this.normalizeData(cities)));
+		}
 	}
 
-	/** @description Filters the list according to the characters entered in the child component. */
-	protected filterData(): void {
-		this.searchForm.valueChanges
-			.pipe(
-				debounceTime(500),
-				map(({ search }) => {
-					const searchNormalized = this.normalizeFilter(search);
-					const filterNormalized = this.listTest$.getValue().filter(item => this.normalizeFilter(item.text).includes(searchNormalized));
+	/** @description Normalizes cities from storage, so they can be rendered in the list. */
+	protected normalizeData(cities: IWorldCity[]): ISelectItem[] {
+		const dataNormalized: ISelectItem[] = [];
 
-					if (filterNormalized.length === 0 || !search) {
-						this.listTest$.next([
-							{
-								text: 'Rio de Janeiro',
-								isCountry: false,
-								isClicked: false,
-							},
-							{
-								text: 'Estados Unidos',
-								isCountry: true,
-								isClicked: false,
-							},
-							{
-								text: 'Brasil',
-								isCountry: true,
-								isClicked: false,
-							},
-							{
-								text: 'São Paulo',
-								isCountry: false,
-								isClicked: false,
-							},
-							{
-								text: 'Nova York',
-								isCountry: false,
-								isClicked: false,
-							},
-						]);
+		cities.forEach(city =>
+			dataNormalized.push({
+				cityCode: city.id,
+				cityName: city.name,
+				cityLat: city.lat,
+				cityLon: city.lon,
+				isClicked: false,
+			})
+		);
 
-						return this.listTest$.getValue();
-					}
-
-					return filterNormalized;
-				})
-			)
-			.subscribe(result => this.listTest$.next(result));
+		return dataNormalized;
 	}
 
 	/** @description Normalizes the filter string, removing blank and seated characters. */
@@ -112,5 +99,37 @@ export class SearchPageComponent implements OnInit {
 			.replace(/[\u0300-\u036f/\s]/g, '');
 	}
 
-	goToViewRoute() {}
+	/** @description Sort the list by pressing the button of the child component, the sorting can be of two types: "Ascending" or "Descending". */
+	orderByList(isOrderByAsc: boolean): void {
+		this.cityData$.getValue()?.sort((a, b) => (isOrderByAsc ? (a.cityName > b.cityName ? 1 : -1) : b.cityName > a.cityName ? 1 : -1));
+	}
+
+	goToViewRoute() {
+		if (this.citiesSelected.length >= 1 && this.citiesSelected.length <= 3) {
+			let stringParams = '';
+
+			this.citiesSelected.forEach(city => (stringParams += `${city.cityCode} `));
+			this.routerUtils.navigateTo('/view', {
+				queryParams: {
+					cities: stringParams.match(/[^ ,]+/g).join(','),
+				},
+			});
+		}
+	}
+
+	deleteCity(item: ISelectItem): void {
+		if (item) {
+			const country$ = new BehaviorSubject<IWorldCountry | null>(null);
+
+			this.subscription$ = this.worldStore.getCountryByCityId$(item.cityCode).subscribe(country => this.subscriber$.add(country$.next(country)));
+
+			this.worldStore.update({
+				id: country$.getValue()?.id,
+				changes: {
+					updatedAt: this.dateUtils.localUTC,
+					cities: [...country$.getValue()?.cities.filter(city => city.id !== item.cityCode)],
+				},
+			});
+		}
+	}
 }
