@@ -29,35 +29,29 @@ export class RouterUtilsService {
 
 	/** @description Updates the state of the routes. */
 	protected setRouteStateConfig(routerName: string): void {
-		switch (routerName) {
-			case '/error':
-				this.updateRouterState(true, false, false, false, false, false, false, false, false);
-				break;
-			case '/login':
-				this.updateRouterState(false, true, false, false, false, false, false, false, false);
-				break;
-			case '/profile':
-				this.updateRouterState(false, false, false, true, false, false, false, false, false);
-				break;
-			case '/create':
-				this.updateRouterState(false, false, false, false, true, false, false, false, false);
-				break;
-			case '/create/country':
-				this.updateRouterState(false, false, false, false, false, true, false, false, false);
-				break;
-			case '/create/city':
-				this.updateRouterState(false, false, false, false, false, false, true, false, false);
-				break;
-			case '/search':
-				this.updateRouterState(false, false, false, false, false, false, false, true, false);
-				break;
-			case '/view':
-				this.updateRouterState(false, false, false, false, false, false, false, false, true);
-				break;
-			default:
-				this.updateRouterState(false, false, true, false, false, false, false, false, false);
-				break;
-		}
+		console.log(routerName);
+		const isErrorRoute = !!routerName.includes('/error');
+		const isLoginRoute = !!routerName.includes('/login');
+		const isProfileRoute = !!routerName.includes('/profile');
+		const isSearchRoute = !!routerName.includes('/search');
+		const isViewRoute = !!routerName.includes('/view');
+		const isCreateCountryRoute = !!routerName.includes('/create/country');
+		const isCreateCityRoute = !!routerName.includes('/create/city');
+		const isCreateRoute = !!routerName.includes('/create') && !isCreateCountryRoute && !isCreateCityRoute;
+		const isHomeRoute =
+			!isErrorRoute && !isLoginRoute && !isProfileRoute && !isSearchRoute && !isViewRoute && !isCreateRoute && !isCreateCountryRoute && !isCreateCityRoute;
+
+		this.updateRouterState(
+			isErrorRoute,
+			isLoginRoute,
+			isHomeRoute,
+			isProfileRoute,
+			isSearchRoute,
+			isViewRoute,
+			isCreateRoute,
+			isCreateCountryRoute,
+			isCreateCityRoute
+		);
 	}
 
 	/** @description Auxiliary method for updating route states */
@@ -66,22 +60,22 @@ export class RouterUtilsService {
 		login: boolean,
 		home: boolean,
 		profile: boolean,
+		search: boolean,
+		view: boolean,
 		create: boolean,
 		createCountry: boolean,
-		createCity: boolean,
-		search: boolean,
-		view: boolean
+		createCity: boolean
 	): void {
 		this.routerState$.next({
 			error,
 			login,
 			home,
 			profile,
+			search,
+			view,
 			create,
 			createCountry,
 			createCity,
-			search,
-			view,
 		});
 	}
 
