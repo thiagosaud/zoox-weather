@@ -64,6 +64,21 @@ export interface IWeatherForecastList {
 	};
 }
 
+export interface IWeatherCondition {
+	dt: string | number;
+	isSelected: boolean;
+	weather: {
+		description: string;
+		icon: string;
+		temp?: number;
+		temp_min?: number;
+		temp_max?: number;
+		windSpeed: number;
+		humidity: number;
+		pressure: number;
+	};
+}
+
 interface IWeather {
 	id?: number;
 	main?: string;

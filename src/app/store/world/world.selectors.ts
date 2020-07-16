@@ -41,6 +41,26 @@ export const getCities = createSelector(getCountries, (countries: IWorldCountry[
 	return null;
 });
 
+export const getCitiesByIds = createSelector(getCountries, (countries: IWorldCountry[], { citiesIds }: { citiesIds: string[] }) => {
+	if (countries) {
+		const cities: IWorldCity[] = [];
+
+		countries.forEach(country => {
+			citiesIds.forEach(cityCode => {
+				country.cities.find(city => {
+					if (city.id === cityCode) {
+						cities.push(city);
+					}
+				});
+			});
+		});
+
+		return cities;
+	}
+
+	return null;
+});
+
 export const getCitiesCreated = createSelector(getCountriesCreated, countries => {
 	if (countries) {
 		const cities: IWorldCity[] = [];
