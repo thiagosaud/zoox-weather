@@ -2,11 +2,15 @@ import { Component, AfterContentInit, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Subscriber, BehaviorSubject, combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+
+// INTERFACES
 import { IWorldCountry, IWorldCity } from '@store/world/world.interface';
+import { ISelectOptionItem } from '@shared/interfaces/utils.interface';
+
+// SERVICES
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { WorldStoreService } from '@services/store/world/world.service';
 import { DateUtilsService } from '@services/utils/date/date.service';
-import { ISelectOptionItem } from '@shared/interfaces/utils.interface';
 
 @Component({
 	selector: 'zx-create-form',

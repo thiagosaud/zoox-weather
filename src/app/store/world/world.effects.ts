@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of, BehaviorSubject } from 'rxjs';
-import { switchMap, map, catchError, delay } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 
 // STORE ITEM CONFIG
 import * as action from './world.actions';
+
+// SERVICES
 import { ZooxApiService } from '@services/APIS/server/zoox.service';
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';

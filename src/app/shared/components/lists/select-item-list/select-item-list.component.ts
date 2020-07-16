@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+
+// INTERFACE
 import { ISelectItem } from '@shared/interfaces/utils.interface';
 
 @Component({

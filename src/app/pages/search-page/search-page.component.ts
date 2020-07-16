@@ -2,8 +2,12 @@ import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime, map, takeWhile } from 'rxjs/operators';
 import { BehaviorSubject, Subscriber, Subscription, combineLatest } from 'rxjs';
+
+// INTERFACES
 import { ISelectItem } from '@shared/interfaces/utils.interface';
 import { IWorldCity, IWorldCountry } from '@store/world/world.interface';
+
+// SERVICES
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { WorldStoreService } from '@services/store/world/world.service';
 import { DateUtilsService } from '@services/utils/date/date.service';

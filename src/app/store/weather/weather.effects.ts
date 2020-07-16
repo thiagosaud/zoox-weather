@@ -7,6 +7,8 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 // STORE ITEM CONFIG
 import * as action from './weather.actions';
 import { IWeatherForecastData, IWeatherHistoricalData, IWeatherData, IWeatherCoordinatesCity } from './weather.interface';
+
+// SERVICES
 import { WeatherApiService } from '@services/APIS/weather/weather.service';
 import { DateUtilsService } from '@services/utils/date/date.service';
 import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';

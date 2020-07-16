@@ -1,7 +1,9 @@
 import { Component, AfterContentInit, OnDestroy } from '@angular/core';
+import { Subscription, Subscriber, BehaviorSubject } from 'rxjs';
+
+// SERVICES
 import { RouterUtilsService } from '@services/utils/router/router.service';
 import { ImageAssetsUtilsService } from '@services/utils/assets/image.service';
-import { Subscription, Subscriber, BehaviorSubject } from 'rxjs';
 
 @Component({
 	selector: 'zx-create-page',
