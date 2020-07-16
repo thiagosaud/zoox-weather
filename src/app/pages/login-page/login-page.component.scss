@@ -1,0 +1,18 @@
+@import 'mixins/breakpoints';
+@import 'mixins/backgrounds';
+@import 'classes/colors';
+@import 'classes/flexbox';
+@import 'classes/sizes';
+
+:host {
+	@extend .height-vh-100;
+	@extend .flex-align-center;
+	@extend .text-grey-dark-4;
+
+	@include bg-image-blend('/assets/images/utils/bg-planet-animated.gif', no-repeat, cover, luminosity, center, var(--color-grey-dark-4));
+
+	@include breakpoint-desktop {
+		padding-left: 5rem;
+		justify-content: flex-start;
+	}
+}
