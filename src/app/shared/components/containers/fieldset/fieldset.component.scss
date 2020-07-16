@@ -1,0 +1,15 @@
+@import 'classes/borders';
+@import 'classes/spacers';
+
+fieldset {
+	// THEMES
+	&[theme='default'] {
+		@extend .border-none;
+		@extend .margin-top-3;
+		@extend .margin-bottom-4;
+	}
+
+	span {
+		display: block;
+	}
+}

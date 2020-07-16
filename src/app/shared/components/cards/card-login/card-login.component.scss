@@ -1,0 +1,44 @@
+@import 'mixins/breakpoints';
+@import 'classes/flexbox';
+@import 'classes/colors';
+@import 'classes/sizes';
+@import 'classes/spacers';
+@import 'classes/texts';
+
+div {
+	@extend .flex-justify-center;
+	@extend .height-auto;
+	@extend .width-auto;
+	@extend .bg-white;
+
+	@include breakpoint-smartphone {
+		flex-direction: column;
+		padding: 1rem;
+		height: 100vh;
+		width: 100vw;
+	}
+
+	@include breakpoint-tablet {
+		flex-direction: row;
+		padding: 3rem;
+		height: auto;
+		width: 45rem;
+	}
+
+	@include breakpoint-tablet-large {
+		width: 50rem;
+	}
+
+	header {
+		@extend .flex-fill;
+		@extend .flex-column-align-center;
+		@extend .padding-xy-2;
+
+		span {
+			@extend .margin-top-6;
+			@extend .text-default;
+			@extend .text-weight-500;
+			@extend .text-align-center;
+		}
+	}
+}

@@ -1,0 +1,21 @@
+<form [formGroup]="loginForm">
+	<zx-fieldset
+		[fmGroup]="loginForm"
+		[fmControlName]="'login'"
+		[title]="'LOGIN'"
+		[spanClass]="['margin-bottom-3']"
+		[inputType]="'email'"
+		[maxLength]="25"
+	></zx-fieldset>
+
+	<zx-fieldset
+		[fmGroup]="loginForm"
+		[fmControlName]="'password'"
+		[title]="'SENHA'"
+		[spanClass]="['margin-bottom-3']"
+		[inputType]="'password'"
+		[maxLength]="25"
+	></zx-fieldset>
+
+	<zx-button (click)="submitForm.emit(loginForm)" [isDisabled]="!loginForm.valid">Acessar</zx-button>
+</form>
