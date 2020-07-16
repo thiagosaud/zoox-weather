@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of, timer } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, delay } from 'rxjs/operators';
 
 // STORE ITEM CONFIG
 import * as action from './auth.actions';
@@ -11,6 +11,7 @@ import * as action from './auth.actions';
 import { ZooxApiService } from '@services/APIS/server/zoox.service';
 import { AuthUtilsService } from '@services/utils/authentication/auth.service';
 import { RouterUtilsService } from '@services/utils/router/router.service';
+import { ImageAssetsUtilsService } from '@services/utils/assets/image.service';
 import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';
 
 @Injectable()
@@ -20,6 +21,7 @@ export class Effects {
 		protected readonly backendService: ZooxApiService,
 		protected readonly authService: AuthUtilsService,
 		protected readonly routerService: RouterUtilsService,
+		protected readonly imageService: ImageAssetsUtilsService,
 		protected readonly toastifyService: ToastifyUtilsService
 	) {}
 
@@ -31,14 +33,21 @@ export class Effects {
 					map(user => {
 						this.authService.createToken();
 						this.toastifyService.success('Sucesso', 'Acesso Autorizado!');
-
-						timer(1000).subscribe(() => this.routerService.navigateTo('/'));
+						this.routerService.routerState$.pipe(delay(1000)).subscribe(({ login }) => {
+							if (login) {
+								this.routerService.navigateTo('/');
+							}
+						});
 
 						return action.SET_AUTH_SUCCESS({
 							auth: {
 								isAuthenticated: true,
 								token: this.authService.token,
-								user: user[0],
+								user: {
+									...user[0],
+									full_name: 'THIAGO DE BONIS',
+									avatar: this.imageService.get('user'),
+								},
 							},
 						});
 					}),
@@ -59,6 +68,8 @@ export class Effects {
 				if (this.authService.token) {
 					this.authService.removeToken();
 					this.toastifyService.success('Sucesso', 'Autenticação Removida!');
+
+					timer(1000).subscribe(() => this.routerService.navigateTo('/login'));
 
 					return of(action.DELETE_AUTH_SUCCESS({ token }));
 				} else {
