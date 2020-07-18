@@ -8,10 +8,17 @@ import { SearchPageComponent } from '@pages/search-page/search-page.component';
 import { CreatePageComponent } from '@pages/create-page/create-page.component';
 import { ViewPageComponent } from '@pages/view-page/view-page.component';
 
+// SERVICES
+import { WorldStoreResolver } from '@services/resolvers/world-store/world-store.service';
+
 const routes: Routes = [
 	{ path: 'profile', component: ProfilePageComponent },
-	{ path: 'search', component: SearchPageComponent },
 	{ path: 'view', component: ViewPageComponent },
+	{
+		path: 'search',
+		component: SearchPageComponent,
+		resolve: { world: WorldStoreResolver },
+	},
 	{
 		path: 'create',
 		component: CreatePageComponent,
