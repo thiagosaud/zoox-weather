@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationEnd, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { ToastifyUtilsService } from '../toastify/toastify.service';
+
+// SERVICE
+import { ToastifyUtilsService } from '@services/utils/toastify/toastify.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -84,7 +86,6 @@ export class RouterUtilsService {
 	}
 
 	/** @description Route navigation by name */
-	/** @TODO Completar o CATCH... */
 	navigateTo(routerName: string, extras?: NavigationExtras): void {
 		this.router.navigate([routerName], extras).catch(() => this.toastifyService.error('Error', 'Ops... Ocorreu algum problema.'));
 	}
