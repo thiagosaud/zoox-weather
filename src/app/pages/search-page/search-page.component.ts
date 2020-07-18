@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { debounceTime, map, takeWhile } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { debounceTime, map, takeWhile, filter } from 'rxjs/operators';
 import { BehaviorSubject, Subscriber, Subscription, combineLatest } from 'rxjs';
 
 // INTERFACES
-import { ISelectItem } from '@shared/interfaces/utils.interface';
-import { IWorldCity, IWorldCountry } from '@store/world/world.interface';
+import { IWorldCountry, IWorldCity } from '@store/world/world.interface';
+import { ISelectItemData } from '@shared/components/lists/select-item-list/select-item-list.component.interface';
 
 // SERVICES
 import { RouterUtilsService } from '@services/utils/router/router.service';
@@ -17,47 +18,35 @@ import { DateUtilsService } from '@services/utils/date/date.service';
 	templateUrl: './search-page.component.html',
 	styleUrls: ['./search-page.component.scss'],
 })
-export class SearchPageComponent implements OnInit, OnDestroy, AfterContentInit {
-	protected subscription$ = new Subscription();
-	protected subscriber$ = new Subscriber();
-	cityData$ = new BehaviorSubject<ISelectItem[] | null>(null);
-	citiesSelected: ISelectItem[];
+export class SearchPageComponent implements OnInit, OnDestroy {
+	protected subscription$: Subscription;
+	protected subscriber$ = new Subscriber<IWorldCountry[]>();
+	countries$ = new BehaviorSubject<IWorldCountry[]>(null);
+	cities$ = new BehaviorSubject<IWorldCity[]>(null);
+	selectData$ = new BehaviorSubject<ISelectItemData[]>(null);
 	searchForm: FormGroup;
 
 	constructor(
+		protected readonly activatedRoute: ActivatedRoute,
 		protected readonly routerUtils: RouterUtilsService,
+		protected readonly formBuilder: FormBuilder,
 		protected readonly worldStore: WorldStoreService,
-		protected readonly dateUtils: DateUtilsService,
-		protected readonly formBuilder: FormBuilder
+		protected readonly dateUtils: DateUtilsService
 	) {
-		this.worldStore.add();
 		this.searchForm = formBuilder.group({
 			search: formBuilder.control('', [Validators.minLength(1), Validators.maxLength(58), Validators.required]),
 		});
 	}
 
 	ngOnInit(): void {
-		/** @description Filters the list according to the characters entered in the child component. */
-		combineLatest([this.searchForm.valueChanges, this.worldStore.citiesCreated$, this.cityData$])
-			.pipe(
-				takeWhile(([_, cities]) => !!cities),
-				debounceTime(500),
-				map(([valueChanges, cities, selectsCities]) => {
-					const { search } = valueChanges;
-					const searchNormalized = this.normalizeFilter(search);
-					const filterNormalized = selectsCities.filter(item => this.normalizeFilter(item.cityName).includes(searchNormalized));
+		this.subscription$ = this.activatedRoute.data.subscribe(({ world }) => {
+			const countriesCreated = world[1];
+			const citiesCreated: IWorldCity[] = world[2];
 
-					return filterNormalized.length === 0 || !search ? this.normalizeData(cities) : filterNormalized;
-				})
-			)
-			.subscribe(items => this.setData(true, null, items));
-	}
-
-	ngAfterContentInit(): void {
-		this.subscription$ = this.worldStore.citiesCreated$.subscribe(cities => {
-			if (cities) {
-				this.setData(false, cities);
-			}
+			this.subscriber$.add(this.countries$.next(countriesCreated));
+			this.subscriber$.add(this.cities$.next(citiesCreated));
+			this.setSelectData(citiesCreated);
+			this.filter();
 		});
 	}
 
@@ -66,74 +55,107 @@ export class SearchPageComponent implements OnInit, OnDestroy, AfterContentInit 
 		this.subscriber$.unsubscribe();
 	}
 
-	/** @description Returns the number of items selected from the list. */
-	get amountItemSelected(): number {
-		return this.cityData$.getValue()?.filter(item => item.isClicked).length;
-	}
-
-	/** @description Auxiliary method for entering normalized values.  */
-	protected setData(isDataNormalized: boolean, cities: IWorldCity[], citiesNormalized?: ISelectItem[]): void {
-		if (cities || citiesNormalized) {
-			this.subscriber$.add(this.cityData$.next(isDataNormalized ? citiesNormalized : this.normalizeData(cities)));
-		}
-	}
-
-	/** @description Normalizes cities from storage, so they can be rendered in the list. */
-	protected normalizeData(cities: IWorldCity[]): ISelectItem[] {
-		const dataNormalized: ISelectItem[] = [];
+	/** @description Insert data coming from the backend according to the structure of the selection component interface. */
+	protected setSelectData(cities: IWorldCity[]): void {
+		const selectData: ISelectItemData[] = [];
 
 		cities.forEach(city =>
-			dataNormalized.push({
-				cityCode: city.id,
-				cityName: city.name,
-				cityLat: city.lat,
-				cityLon: city.lon,
-				isClicked: false,
+			selectData.push({
+				item: city,
+				text: city.name,
+				isSelected: false,
 			})
 		);
 
-		return dataNormalized;
+		this.subscriber$.add(this.selectData$.next(selectData));
 	}
 
-	/** @description Normalizes the filter string, removing blank and seated characters. */
-	protected normalizeFilter(text: string): string {
-		return text
-			.toLowerCase()
-			.normalize('NFD')
-			.replace(/[\u0300-\u036f/\s]/g, '');
+	/** @description Filters cities according to the values ​​entered in the input. */
+	protected filter(): void {
+		this.subscription$ = combineLatest([this.searchForm.valueChanges, this.cities$, this.activatedRoute.data])
+			.pipe(
+				takeWhile(([_, cities]) => cities.length > 0),
+				filter(([_, cities]) => !!cities || cities.length > 0),
+				debounceTime(300),
+				map(([formValue, cities, dataRoute]) => {
+					const resolverCities: IWorldCity[] = dataRoute.world[2];
+					const dataFiltred = cities.filter(city =>
+						city.name
+							.toLowerCase()
+							.normalize('NFD')
+							.replace(/[\u0300-\u036f/\s]/g, '')
+							.includes(
+								formValue.search
+									.toLowerCase()
+									.normalize('NFD')
+									.replace(/[\u0300-\u036f/\s]/g, '')
+							)
+					);
+
+					return !dataFiltred || dataFiltred.length === 0 ? resolverCities : dataFiltred;
+				})
+			)
+			.subscribe((dataFiltred: IWorldCity[]) => this.setSelectData(dataFiltred));
+	}
+
+	/** @description Transforme as cidades selecionadas em parâmetros de consulta. */
+	protected get stringParams(): string {
+		let stringParams = '';
+
+		this.selectData$.getValue().forEach(city => {
+			if (city.isSelected) {
+				stringParams += `${city.item.id} `;
+			}
+		});
+
+		return stringParams.match(/[^ ,]+/g).join(',');
+	}
+
+	/** @description Returns the number of items selected in the list. */
+	get amountSelected(): number {
+		return this.selectData$.getValue().filter(item => item.isSelected).length;
+	}
+
+	/** @description Updates the values ​​according to the event in the selection component. */
+	updateSelectData(item: ISelectItemData): void {
+		this.selectData$.getValue().map(data => (data.text === item.text ? (data = item) : data));
 	}
 
 	/** @description Sort the list by pressing the button of the child component, the sorting can be of two types: "Ascending" or "Descending". */
 	orderByList(isOrderByAsc: boolean): void {
-		this.cityData$.getValue()?.sort((a, b) => (isOrderByAsc ? (a.cityName > b.cityName ? 1 : -1) : b.cityName > a.cityName ? 1 : -1));
+		this.selectData$.getValue()?.sort((a, b) => (isOrderByAsc ? (a.text > b.text ? 1 : -1) : b.text > a.text ? 1 : -1));
 	}
 
 	goToViewRoute() {
-		if (this.citiesSelected.length >= 1 && this.citiesSelected.length <= 3) {
-			let stringParams = '';
-
-			this.citiesSelected.forEach(city => (stringParams += `${city.cityCode} `));
+		if (this.amountSelected >= 1 && this.amountSelected <= 3) {
 			this.routerUtils.navigateTo('/view', {
-				queryParams: {
-					cities: stringParams.match(/[^ ,]+/g).join(','),
+				state: {
+					cityCodes: this.stringParams,
 				},
 			});
 		}
 	}
 
-	deleteCity(item: ISelectItem): void {
-		if (item) {
-			console.log('aquii');
-			const country$ = new BehaviorSubject<IWorldCountry | null>(null);
+	deleteCity(itemSelected: ISelectItemData): void {
+		const citySelected: IWorldCity = itemSelected.item;
 
-			this.subscription$ = this.worldStore.getCountryByCityId$(item.cityCode).subscribe(country => this.subscriber$.add(country$.next(country)));
+		if (citySelected) {
+			let countryFiltred: IWorldCountry;
 
-			if (country$.getValue()) {
+			this.countries$.getValue().forEach(country =>
+				country.cities.filter(city => {
+					if (city.id === citySelected.id) {
+						countryFiltred = country;
+					}
+				})
+			);
+
+			if (countryFiltred) {
 				this.worldStore.update({
-					id: country$.getValue()?.id,
+					id: countryFiltred.id,
 					changes: {
 						updatedAt: this.dateUtils.localUTC,
-						cities: [...country$.getValue()?.cities.filter(city => city.id !== item.cityCode)],
+						cities: [...countryFiltred.cities.filter(city => city.id !== citySelected.id)],
 					},
 				});
 			}
