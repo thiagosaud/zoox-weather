@@ -36,15 +36,6 @@
 					"createdAt": ""
 				},
 				{
-					"id": "SG",
-					"name": "São Gonçalo",
-					"lat": "-22.82694",
-					"lon": "-43.05389",
-					"population": 3449072,
-					"isCreated": false,
-					"createdAt": ""
-				},
-				{
 					"id": "GO",
 					"name": "Goiânia",
 					"lat": "-16.67861",
