@@ -1,5 +1,5 @@
 <form [formGroup]="createForm">
-	<zx-select-option [fmGroup]="createForm" [fmControlName]="'country'" [list]="countryData$ | async" [title]="'Selecione um País...'"></zx-select-option>
+	<zx-select-option [fmGroup]="createForm" [fmControlName]="'country'" [list]="countries$ | async" [title]="'Selecione um País...'"></zx-select-option>
 
 	<zx-select-option
 		*ngIf="(isCreateCountryRoute$ | async) === false"
@@ -7,7 +7,7 @@
 		[fmControlName]="'city'"
 		[ngClass]="['margin-y-3']"
 		[title]="'Selecione uma Cidade...'"
-		[list]="cityData$ | async"
+		[list]="cities$ | async"
 	></zx-select-option>
 
 	<zx-button (click)="submitForm()" [ngClass]="['margin-y-1']" [isDisabled]="!createForm.valid">Criar</zx-button>
