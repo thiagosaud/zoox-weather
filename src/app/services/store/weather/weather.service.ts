@@ -14,7 +14,7 @@ import * as selector from '@store/weather/weather.selectors';
 export class WeatherStoreService {
 	constructor(protected readonly store: Store<IStoreState>) {}
 
-	add(citiesCoordinates: IWeatherCoordinatesCity[]): void {
+	set(citiesCoordinates: IWeatherCoordinatesCity[]): void {
 		this.store.dispatch(action.SET_WEATHER({ citiesCoordinates }));
 	}
 
