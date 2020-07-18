@@ -6,6 +6,7 @@ import { BehaviorSubject, Subscriber, Subscription, combineLatest } from 'rxjs';
 
 // INTERFACES
 import { IWorldCountry, IWorldCity } from '@store/world/world.interface';
+import { IWeatherCoordinatesCity } from '@store/weather/weather.interface';
 import { ISelectItemData } from '@shared/components/lists/select-item-list/select-item-list.component.interface';
 
 // SERVICES
@@ -20,10 +21,10 @@ import { DateUtilsService } from '@services/utils/date/date.service';
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
 	protected subscription$: Subscription;
-	protected subscriber$ = new Subscriber<IWorldCountry[]>();
-	countries$ = new BehaviorSubject<IWorldCountry[]>(null);
-	cities$ = new BehaviorSubject<IWorldCity[]>(null);
-	selectData$ = new BehaviorSubject<ISelectItemData[]>(null);
+	protected subscriber$ = new Subscriber<IWorldCountry[] | null>();
+	countries$ = new BehaviorSubject<IWorldCountry[] | null>(null);
+	cities$ = new BehaviorSubject<IWorldCity[] | null>(null);
+	selectData$ = new BehaviorSubject<ISelectItemData[] | null>(null);
 	searchForm: FormGroup;
 
 	constructor(
@@ -98,19 +99,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 			.subscribe((dataFiltred: IWorldCity[]) => this.setSelectData(dataFiltred));
 	}
 
-	/** @description Transforme as cidades selecionadas em parâmetros de consulta. */
-	protected get stringParams(): string {
-		let stringParams = '';
-
-		this.selectData$.getValue().forEach(city => {
-			if (city.isSelected) {
-				stringParams += `${city.item.id} `;
-			}
-		});
-
-		return stringParams.match(/[^ ,]+/g).join(',');
-	}
-
 	/** @description Returns the number of items selected in the list. */
 	get amountSelected(): number {
 		return this.selectData$.getValue().filter(item => item.isSelected).length;
@@ -128,9 +116,17 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
 	goToViewRoute() {
 		if (this.amountSelected >= 1 && this.amountSelected <= 3) {
+			const citiesCoordinates: IWeatherCoordinatesCity[] = [];
+
+			this.selectData$.getValue().forEach(data => {
+				if (data.isSelected) {
+					citiesCoordinates.push({ lat: data.item.lat, lon: data.item.lon });
+				}
+			});
+
 			this.routerUtils.navigateTo('/view', {
 				state: {
-					cityCodes: this.stringParams,
+					coordinates: citiesCoordinates,
 				},
 			});
 		}

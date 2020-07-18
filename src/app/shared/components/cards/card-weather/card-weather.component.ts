@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 // INTERFACE
 import { IWeatherData, IWeatherCondition } from '@app/store/weather/weather.interface';
 
 // SERVICE
 import { DateUtilsService } from '@services/utils/date/date.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
 	selector: 'zx-card-weather',
