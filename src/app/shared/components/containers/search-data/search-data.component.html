@@ -11,5 +11,10 @@
 		[maxLength]="maxLength"
 	></zx-input>
 
-	<zx-icon (click)="onclickOrderBy()" [theme]="'dark'" [ngClass]="['margin-x-4']" [name]="isOrderByAsc ? 'sort-alpha-asc' : 'sort-alpha-desc'"></zx-icon>
+	<zx-icon
+		(click)="onclickOrderBy()"
+		[theme]="'dark'"
+		[ngClass]="['margin-x-4']"
+		[name]="(isOrderByAsc$ | async) ? 'sort-alpha-asc' : 'sort-alpha-desc'"
+	></zx-icon>
 </div>
