@@ -5,10 +5,21 @@ import { RouterModule, Routes } from '@angular/router';
 // FORM COMPONENT
 import { CreateFormComponent } from '@shared/components/forms/create-form/create-form.component';
 
+// RESOLVER SERVICE
+import { WorldStoreResolver } from '@services/resolvers/world-store/world-store.service';
+
 // MASTER CHILDRENS COMPONENTS PAGES
 const routes: Routes = [
-	{ path: 'country', component: CreateFormComponent },
-	{ path: 'city', component: CreateFormComponent },
+	{
+		path: 'country',
+		component: CreateFormComponent,
+		resolve: { world: WorldStoreResolver },
+	},
+	{
+		path: 'city',
+		component: CreateFormComponent,
+		resolve: { world: WorldStoreResolver },
+	},
 ];
 
 @NgModule({
