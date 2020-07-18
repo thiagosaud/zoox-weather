@@ -54,6 +54,26 @@
 					"createdAt": ""
 				}
 			]
+		},
+		{
+			"id": "AF",
+			"name": "Afeganistão",
+			"capital": "Cabul",
+			"emoji": "🇦🇫",
+			"isCreated": false,
+			"createdAt": "",
+			"updatedAt": "",
+			"cities": [
+				{
+					"id": "CB",
+					"name": "Cabul",
+					"lat": "34.52813",
+					"lon": "69.17233",
+					"population": 3043532,
+					"isCreated": false,
+					"createdAt": ""
+				}
+			]
 		}
 	]
 }
