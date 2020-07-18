@@ -15,6 +15,12 @@ export class WorldStoreResolver implements Resolve<any> {
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
 		this.worldStore.set();
 
-		return combineLatest([this.worldStore.countries$, this.worldStore.countriesCreated$, this.worldStore.citiesCreated$]).pipe(take(4));
+		return combineLatest([
+			this.worldStore.countries$,
+			this.worldStore.countriesCreated$,
+			this.worldStore.citiesCreated$,
+			this.worldStore.countriesNotCreated$,
+			this.worldStore.citiesNotCreated$,
+		]).pipe(take(6));
 	}
 }

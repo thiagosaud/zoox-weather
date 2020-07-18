@@ -15,7 +15,8 @@ import * as selector from '@store/world/world.selectors';
 export class WorldStoreService {
 	constructor(protected readonly store: Store<IStoreState>) {}
 
-	add(): void {
+	// STORE ITEM ACTIONS
+	set(): void {
 		this.store.dispatch(action.SET_WORLD());
 	}
 
@@ -23,35 +24,24 @@ export class WorldStoreService {
 		this.store.dispatch(action.UPDATE_WORLD({ updates }));
 	}
 
+	// STORE ITEM SELECTORS
 	get countries$(): Observable<IWorldCountry[] | null> {
-		return this.store.pipe(select(selector.getCountries));
+		return this.store.pipe(select(selector.countries));
 	}
 
-	get countriesCreated$(): Observable<IWorldCountry[] | null> {
-		return this.store.pipe(select(selector.getCountriesCreated));
+	get countriesCreated$(): Observable<IWorldCountry[] | undefined> {
+		return this.store.pipe(select(selector.countriesCreated));
 	}
 
-	get countriesNotCreated$(): Observable<IWorldCountry[] | null> {
-		return this.store.pipe(select(selector.getCountriesNotCreated));
+	get countriesNotCreated$(): Observable<IWorldCountry[] | undefined> {
+		return this.store.pipe(select(selector.countriesNotCreated));
 	}
 
 	get citiesCreated$(): Observable<IWorldCity[] | null> {
-		return this.store.pipe(select(selector.getCitiesCreated));
+		return this.store.pipe(select(selector.citiesCreated));
 	}
 
-	getCountryByCityId$(cityId: string): Observable<IWorldCountry | null> {
-		return this.store.pipe(select(selector.getCountryByCityId, { cityId }));
-	}
-
-	getCitiesNotCreated$(countryId: string): Observable<IWorldCity[] | null> {
-		return this.store.pipe(select(selector.getCitiesNotCreated, { countryId }));
-	}
-
-	getCities$(countryId: string): Observable<IWorldCity[] | null> {
-		return this.store.pipe(select(selector.getCities, { countryId }));
-	}
-
-	getCitiesByIds$(citiesIds: string[]): Observable<IWorldCity[] | null> {
-		return this.store.pipe(select(selector.getCitiesByIds, { citiesIds }));
+	get citiesNotCreated$(): Observable<IWorldCity[] | null> {
+		return this.store.pipe(select(selector.citiesNotCreated));
 	}
 }

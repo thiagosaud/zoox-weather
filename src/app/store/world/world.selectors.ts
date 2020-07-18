@@ -1,99 +1,35 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 // STORE ITEM CONFIG
-import { IEntityState, IWorldCountry, IWorldCity } from './world.interface';
+import { IEntityState, IWorldCity } from './world.interface';
 
 const FEATURE_SELECTOR = createFeatureSelector<IEntityState>('world');
 
-// GETTER'S
-export const getCountries = createSelector(FEATURE_SELECTOR, ({ world }) => (world ? world : null));
+// COUNTRIES SELECTORS
+export const countries = createSelector(FEATURE_SELECTOR, ({ world }) => (world ? world : null));
+export const countriesCreated = createSelector(countries, data => data?.filter(country => country.isCreated));
+export const countriesNotCreated = createSelector(countries, data => data?.filter(country => !country.isCreated));
 
-export const getCountriesCreated = createSelector(getCountries, countries => (countries ? countries.filter(country => country.isCreated) : null));
-export const getCountriesNotCreated = createSelector(getCountries, countries => (countries ? countries.filter(country => !country.isCreated) : null));
+// CITIES SELECTORS
+export const citiesCreated = createSelector(countriesCreated, data => {
+	if (data) {
+		const countriesFiltered: IWorldCity[] = [];
 
-export const getCountryByCityId = createSelector(getCountries, (countries: IWorldCountry[], { cityId }: { cityId: string }) => {
-	if (countries) {
-		return countries.filter(country => {
-			return country.cities.map(city => {
-				if (city.id === cityId) {
-					return country;
-				}
-			});
-		})[0];
+		data?.map(country => country.cities.filter(city => city.isCreated)).forEach(dataFiltered => countriesFiltered.push(...dataFiltered));
+
+		return countriesFiltered;
 	}
 
 	return null;
 });
 
-export const getCities = createSelector(getCountries, (countries: IWorldCountry[], { countryId }: { countryId: string }) => {
-	if (countries) {
-		const cities: IWorldCity[] = [];
+export const citiesNotCreated = createSelector(countriesCreated, data => {
+	if (data) {
+		const countriesFiltered: IWorldCity[] = [];
 
-		countries.forEach(country => {
-			if (country.id === countryId) {
-				cities.push(...country.cities);
-			}
-		});
+		data?.map(country => country.cities.filter(city => !city.isCreated)).forEach(dataFiltered => countriesFiltered.push(...dataFiltered));
 
-		return cities;
-	}
-
-	return null;
-});
-
-export const getCitiesByIds = createSelector(getCountries, (countries: IWorldCountry[], { citiesIds }: { citiesIds: string[] }) => {
-	if (countries) {
-		const cities: IWorldCity[] = [];
-
-		countries.forEach(country => {
-			citiesIds.forEach(cityCode => {
-				country.cities.find(city => {
-					if (city.id === cityCode) {
-						cities.push(city);
-					}
-				});
-			});
-		});
-
-		return cities;
-	}
-
-	return null;
-});
-
-export const getCitiesCreated = createSelector(getCountriesCreated, countries => {
-	if (countries) {
-		const cities: IWorldCity[] = [];
-
-		countries.forEach(country =>
-			country.cities.filter(city => {
-				if (city.isCreated) {
-					cities.push(city);
-				}
-			})
-		);
-
-		return cities;
-	}
-
-	return null;
-});
-
-export const getCitiesNotCreated = createSelector(getCountriesCreated, (countries: IWorldCountry[], { countryId }: { countryId: string }) => {
-	if (countries) {
-		const cities: IWorldCity[] = [];
-
-		countries.forEach(country => {
-			if (country.id === countryId) {
-				country.cities.filter(city => {
-					if (!city.isCreated) {
-						cities.push(city);
-					}
-				});
-			}
-		});
-
-		return cities;
+		return countriesFiltered;
 	}
 
 	return null;
