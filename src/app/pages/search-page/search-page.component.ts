@@ -41,11 +41,11 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.subscription$ = this.activatedRoute.data.subscribe(({ world }) => {
-			const countriesCreated = world[1];
-			const citiesCreated: IWorldCity[] = world[2];
+			const [_, countriesCreated, citiesCreated] = world;
 
 			this.subscriber$.add(this.countries$.next(countriesCreated));
 			this.subscriber$.add(this.cities$.next(citiesCreated));
+
 			this.setSelectData(citiesCreated);
 			this.filter();
 		});
@@ -133,28 +133,30 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 	}
 
 	deleteCity(itemSelected: ISelectItemData): void {
-		const citySelected: IWorldCity = itemSelected.item;
+		const citySelected: IWorldCity = Object.assign({}, itemSelected.item);
 
 		if (citySelected) {
-			let countryFiltred: IWorldCountry;
+			citySelected.isCreated = false;
+			citySelected.createdAt = '';
 
+			let countryByCitySelected: IWorldCountry;
 			this.countries$.getValue().forEach(country =>
-				country.cities.filter(city => {
+				country.cities.forEach(city => {
 					if (city.id === citySelected.id) {
-						countryFiltred = country;
+						countryByCitySelected = country;
 					}
 				})
 			);
 
-			if (countryFiltred) {
-				this.worldStore.update({
-					id: countryFiltred.id,
-					changes: {
-						updatedAt: this.dateUtils.localUTC,
-						cities: [...countryFiltred.cities.filter(city => city.id !== citySelected.id)],
-					},
-				});
-			}
+			const citiesNotCreated: IWorldCity[] = countryByCitySelected.cities.filter(city => city.id !== citySelected.id);
+
+			this.worldStore.update({
+				id: countryByCitySelected.id,
+				changes: {
+					updatedAt: this.dateUtils.localUTC,
+					cities: [...citiesNotCreated, citySelected],
+				},
+			});
 		}
 	}
 }

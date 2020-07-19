@@ -41,9 +41,10 @@ export class CreateFormComponent implements OnInit, AfterContentInit, OnDestroy 
 	ngAfterContentInit(): void {
 		this.subscription$ = combineLatest([this.routerUtils.routerState$, this.activatedRoute.data]).subscribe(([routerState, routerData]) => {
 			const { createCountry, createCity } = routerState;
-			const [_, countriesCreated, __, countriesNotCreated] = routerData.world;
+			const [_, countriesCreated, __, countriesNotCreated, citiesNotCreated] = routerData.world;
 
 			this.subscriber$.add(this.isCreateCountryRoute$.next(routerState.createCountry));
+
 			this.setCountriesData(createCountry, countriesCreated, countriesNotCreated);
 			this.removeFormControl(createCountry);
 			this.updateFormControlState(createCountry, createCity, false, countriesCreated, countriesNotCreated);
@@ -145,23 +146,30 @@ export class CreateFormComponent implements OnInit, AfterContentInit, OnDestroy 
 	submitForm(): void {
 		if (this.createForm.valid) {
 			const { country, city } = this.createForm.value;
-			const citySelected = Object.assign({}, this.cities$.getValue().filter(cityNotSelected => cityNotSelected.item.id === city)[0].item);
-			citySelected.isCreated = true;
-			citySelected.createdAt = this.dateUtils.localUTC;
+			const countrySelected: IWorldCountry = this.countries$.getValue().filter(selectOption => selectOption.item.id === country)[0].item;
 
-			const citiesNotSelected: IWorldCity[] = [];
-			this.cities$.getValue().forEach(cityNotSelected => {
-				if (cityNotSelected.item.id !== city) {
-					citiesNotSelected.push(cityNotSelected.item);
-				}
-			});
+			if (!this.isCreateCountryRoute$.getValue()) {
+				const citiesNotCreated: IWorldCity[] = countrySelected.cities.filter(cityData => cityData.id !== city);
+				const citySelected: IWorldCity = Object.assign({}, countrySelected.cities.filter(cityData => cityData.id === city)[0]);
+				citySelected.createdAt = this.dateUtils.localUTC;
+				citySelected.isCreated = true;
 
-			this.worldStore.update({
-				id: country,
-				changes: {
-					cities: [citySelected, ...citiesNotSelected],
-				},
-			});
+				this.worldStore.update({
+					id: country,
+					changes: {
+						updatedAt: this.dateUtils.localUTC,
+						cities: [...citiesNotCreated, citySelected],
+					},
+				});
+			} else {
+				this.worldStore.update({
+					id: country,
+					changes: {
+						createdAt: this.dateUtils.localUTC,
+						isCreated: true,
+					},
+				});
+			}
 		}
 	}
 }

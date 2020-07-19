@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControlName } from '@angular/forms';
 
 // INTERFACE
@@ -9,6 +9,7 @@ import { ISelectOptionData } from './select-option.component.interface';
 	template: `
 		<ng-container [formGroup]="fmGroup">
 			<select
+				(click)="onclick.emit($event)"
 				(change)="isSelected = false"
 				(focus)="isSelected = true"
 				(blur)="isSelected = false"
@@ -23,6 +24,7 @@ import { ISelectOptionData } from './select-option.component.interface';
 	styleUrls: ['./select-option.component.scss'],
 })
 export class SelectOptionComponent implements OnInit {
+	@Output() onclick = new EventEmitter<MouseEvent>();
 	@Input() fmGroup: FormGroup;
 	@Input() fmControlName: FormControlName;
 	@Input() title: string;

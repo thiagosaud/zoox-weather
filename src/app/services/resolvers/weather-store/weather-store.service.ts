@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 // SERVICE

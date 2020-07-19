@@ -1,5 +1,11 @@
 <form [formGroup]="createForm">
-	<zx-select-option [fmGroup]="createForm" [fmControlName]="'country'" [list]="countries$ | async" [title]="'Selecione um País...'"></zx-select-option>
+	<zx-select-option
+		(onclick)="createForm.controls.city.patchValue('')"
+		[fmGroup]="createForm"
+		[fmControlName]="'country'"
+		[list]="countries$ | async"
+		[title]="'Selecione um País...'"
+	></zx-select-option>
 
 	<zx-select-option
 		*ngIf="(isCreateCountryRoute$ | async) === false"
