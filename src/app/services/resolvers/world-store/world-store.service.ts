@@ -3,16 +3,19 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable, combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+// INTERFACE
+import { IWorldCountry, IWorldCity } from '@store/world/world.interface';
+
 // SERVICE
 import { WorldStoreService } from '@services/store/world/world.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class WorldStoreResolver implements Resolve<any> {
+export class WorldStoreResolver implements Resolve<Array<IWorldCountry[] | IWorldCity[]>> {
 	constructor(protected readonly worldStore: WorldStoreService) {}
 
-	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Array<IWorldCountry[] | IWorldCity[]>> {
 		this.worldStore.set();
 
 		return combineLatest([
