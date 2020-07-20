@@ -37,7 +37,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 		const password = request.params.get('password');
 
 		// FAKE BACKEND CONTROLLER
-		if (!(event instanceof HttpResponse) && username !== 'mecontrate@zoox.com.br' && password !== 'zoox') {
+		if (!(event instanceof HttpResponse) && (username !== 'mecontrate@zoox.com.br' || password !== 'zoox')) {
 			throw new HttpErrorResponse({
 				status: 401,
 				statusText: 'Unauthorized',
