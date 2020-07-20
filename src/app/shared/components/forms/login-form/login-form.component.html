@@ -17,5 +17,5 @@
 		[maxLength]="25"
 	></zx-fieldset>
 
-	<zx-button (click)="submitForm.emit(loginForm)" [isDisabled]="!loginForm.valid">Acessar</zx-button>
+	<zx-button (click)="onSubmit()" [isDisabled]="!loginForm.valid">Acessar</zx-button>
 </form>

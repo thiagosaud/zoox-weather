@@ -21,7 +21,7 @@ export class LoginFormComponent implements OnInit {
 
 	onSubmit(): void {
 		if (this.loginForm.valid) {
-			/** @TODO CONTINUAÇÃO */
+			this.submitForm.emit(this.loginForm);
 		}
 	}
 }
